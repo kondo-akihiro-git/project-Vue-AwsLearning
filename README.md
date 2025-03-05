@@ -1,8 +1,8 @@
-# AWS-CLI Learning
+# AWS-Founfation Learning
 
 ## アプリ概要
 
-AWS-CLIの資格取得にあたって必要なキーワードをまとめて学習できるアプリです。  
+AWS Foundationの資格取得にあたって必要なキーワードをまとめて学習できるアプリです。  
 ※開発後半で説明を修正する予定
 
 ## フォルダ構成
