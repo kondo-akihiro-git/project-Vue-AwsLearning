@@ -13,23 +13,23 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const wordsDatabaseId = process.env.NOTION_WORDS_MST_DATABASE_ID;
 const groupsDatabaseId = process.env.NOTION_GROUPS_MST_DATABASE_ID;
 
-app.get('/notion-words', async (req, res) => {
+app.get('/notion-word', async (req, res) => {
     try {
         const response = await notion.databases.query({ database_id: wordsDatabaseId });
         res.json(response.results);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to fetch Notion words data' });
+        res.status(500).json({ error: 'ワードデータの取得に失敗しました。' });
     }
 });
 
-app.get('/notion-groups', async (req, res) => {
+app.get('/notion-category', async (req, res) => {
     try {
         const response = await notion.databases.query({ database_id: groupsDatabaseId });
         res.json(response.results);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Failed to fetch Notion groups data' });
+        res.status(500).json({ error: 'カテゴリーデータの取得に失敗しました。' });
     }
 });
 
