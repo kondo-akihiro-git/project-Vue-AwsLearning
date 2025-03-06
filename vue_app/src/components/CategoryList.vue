@@ -3,11 +3,10 @@ export default {
     props: {
         ////////////////////////////////////////////////////////////////////////////////////////////////////   
         //
-        // wordsData : カテゴリーと関連するワードのリスト 
-        // 例 : "クラウド": ["クラウド", "コロケーション", "ホスティング"]...
+        // listViewData : カテゴリーと関連するワードのリストがまとまったデータ
         //
         ////////////////////////////////////////////////////////////////////////////////////////////////////   
-        categoryListData: Object,
+        listViewData: Object,
     }
 };
 </script>
@@ -18,11 +17,11 @@ export default {
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
-        <div v-for="(words, category) in categoryListData" :key="category">
-            <div class="is-size-3">{{ category }}</div>
+        <div v-for="(wordsData, categoryName) in listViewData" :key="categoryName">
+            <div class="is-size-3">{{ categoryName }}</div>
             
-            <div v-for="word in words" :key="word" @click="$emit('showWordDetailEvent', word)">
-                <div class="is-size-5">{{ word.wordText }}</div>
+            <div v-for="wordData in wordsData" :key="wordData" @click="$emit('showWordDetailEvent', wordData)">
+                <div class="is-size-5">{{ wordData.wordName }}</div>
             </div>
             
         </div>

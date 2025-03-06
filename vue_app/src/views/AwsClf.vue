@@ -12,8 +12,8 @@ export default {
     // データ格納オブジェクト
     data() {
         return {
-            categoryListData: {},
-            selectedWord: null,
+            listViewData: {},
+            selectedWordData: null,
         };
     },
 
@@ -26,9 +26,6 @@ export default {
     //
     // "バックエンドからword_mstデータとcategory_mstデータをAPI取得"
     //
-    // categoryListData : カテゴリーと関連するワードのリスト
-    // 例 : "クラウド": ["クラウド", "コロケーション", "ホスティング"]...
-    //
     ////////////////////////////////////////////////////////////////////////////////////////////////////   
         async fetchData() {
             try {
@@ -36,9 +33,9 @@ export default {
                 const wordResponse = await axios.get('http://localhost:3000/notion-word');
                 const categoryResponse = await axios.get('http://localhost:3000/notion-category');
 
-                const categoryListData = this.formatData(wordResponse.data, categoryResponse.data);
+                const listViewData = this.formatData(wordResponse.data, categoryResponse.data);
 
-                this.categoryListData = categoryListData;
+                this.listViewData = listViewData;
             } catch (error) {
                 console.error("データの取得に失敗しました", error);
             }
@@ -47,38 +44,35 @@ export default {
     //
     // "APIレスポンスのデータ整形"
     //
-    // words, groups : Notionから取得したAPIレスポンス
-    // 例 : "properties":{"explanation":{"id":"Wzsb","type":"rich_text","rich_text"...
-    //
-    // return wordsData : カテゴリーと関連するワードのリスト
-    // 例 : "クラウド": ["クラウド", "コロケーション", "ホスティング"]...
+    // wordsData, categoriesData : Notionから取得したAPIレスポンス
+    // formattedData : カテゴリーと関連するワードのリストがまとまったデータ
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////   
-        formatData(words, categories) {
+        formatData(wordsData, categoriesData) {
 
-            // （1） カテゴリーデータを { "カテゴリーID": "カテゴリー名" } の形式に変換
-            const categoryData = {};
-            categories.forEach(category => {
+            // カテゴリーデータを { カテゴリーID: カテゴリー名 } の形式にする
+            const formattedCategoryData = {};
+            categoriesData.forEach(categoryData => {
 
-                const categoryId = category.properties.id.title[0]?.text.content; 
-                const categoryName = category.properties.category.rich_text[0]?.text.content || "未分類";
-                categoryData[categoryId] = categoryName;
+                const categoryId = categoryData.properties.id.title[0]?.text.content; 
+                const categoryName = categoryData.properties.category.rich_text[0]?.text.content || "未分類";
+                formattedCategoryData[categoryId] = categoryName;
             });
-            console.log("categoryData", categoryData);
+            console.log("categoryData", formattedCategoryData);
 
-            // （2） ワードデータを { category: [{ wordText, explanation }] } の形式で保持
+            // ワードデータを { カテゴリー名: [{ ワード名, ワード説明 }, { }...] } の形式にする
             const formattedData = {};
-            words.forEach(word => {
+            wordsData.forEach(wordData => {
 
-                const wordText = word.properties.word.rich_text[0]?.text.content || "不明なワード"
-                const explanation = word.properties.explanation.rich_text[0]?.text.content || "説明なし"
-                const categoryId = word.properties.categoryId.rich_text[0]?.text.content 
-                const category = categoryData[categoryId]; 
+                const wordName = wordData.properties.word.rich_text[0]?.text.content || "不明なワード"
+                const explanation = wordData.properties.explanation.rich_text[0]?.text.content || "説明なし"
+                const categoryId = wordData.properties.categoryId.rich_text[0]?.text.content 
+                const categoryNam = formattedCategoryData[categoryId]; 
 
-                if (!formattedData[category]) {
-                    formattedData[category] = [];
+                if (!formattedData[categoryNam]) {
+                    formattedData[categoryNam] = [];
                 }
-                formattedData[category].push({ wordText, explanation });
+                formattedData[categoryNam].push({ wordName, explanation });
             });
 
             console.log("formattedData", formattedData);
@@ -89,13 +83,13 @@ export default {
 
 
         // ワード詳細を表示するメソッド
-        showWordDetail(word) {
-            this.selectedWord = word;
+        showWordDetail(selectedWordData) {
+            this.selectedWordData = selectedWordData;
         },
 
         // 詳細を閉じるメソッド
         closeWordDetail() {
-            this.selectedWord = null;
+            this.selectedWordData = null;
         }
     }
 };
@@ -104,17 +98,17 @@ export default {
 <template>
     <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
     //
-    // クラウドプラクティショナー取得に関する学習カテゴリーとワードの表示
+    // カテゴリーとワードの一覧表示とワード詳細の表示
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
         <div class="is-size-2">クラウドプラクティショナー</div>
 
         <!-- カテゴリとワード一覧を表示 -->
-        <CategoryList :categoryListData="categoryListData" @showWordDetailEvent="showWordDetail" />
+        <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail" />
 
         <!-- ワード詳細を表示 -->
-        <WordDetail v-if="selectedWord" :word="selectedWord" @closeWordDetailEvent="closeWordDetail" />
+        <WordDetail v-if="selectedWordData" :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
 
 
         <router-link to="/">ホーム画面に戻る</router-link>
