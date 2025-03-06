@@ -2,12 +2,14 @@
 import axios from 'axios';
 import WordDetail from '../components/WordDetail.vue';
 import CategoryList from '../components/CategoryList.vue';
+import RequestWord from '@/components/RequestWord.vue';
 
 export default {
     // コンポーネントを登録
     components: {
         WordDetail,
-        CategoryList
+        CategoryList,
+        RequestWord
     },
     // データ格納オブジェクト
     data() {
@@ -103,14 +105,15 @@ export default {
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
         <div class="is-size-2">クラウドプラクティショナー</div>
-
+        <br>
         <!-- カテゴリとワード一覧を表示 -->
         <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail" />
-
+        <br>
         <!-- ワード詳細を表示 -->
         <WordDetail v-if="selectedWordData" :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
-
-
+        <br>
+        <RequestWord/>
+        <br>
         <router-link to="/">ホーム画面に戻る</router-link>
     </div>
 </template>

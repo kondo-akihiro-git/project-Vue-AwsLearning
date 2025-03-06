@@ -10,12 +10,13 @@ app.use(cors());
 app.use(express.json());
 
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const wordsDatabaseId = process.env.NOTION_WORDS_MST_DATABASE_ID;
-const groupsDatabaseId = process.env.NOTION_GROUPS_MST_DATABASE_ID;
+const wordDatabaseId = process.env.NOTION_WORD_MST_DATABASE_ID;
+const categoryDatabaseId = process.env.NOTION_CATEGORY_MST_DATABASE_ID;
+const requestDatabaseId = process.env.NOTION_REQUEST_MST_DATABASE_ID;
 
 app.get('/notion-word', async (req, res) => {
     try {
-        const response = await notion.databases.query({ database_id: wordsDatabaseId });
+        const response = await notion.databases.query({ database_id: wordDatabaseId });
         res.json(response.results);
     } catch (error) {
         console.error(error);
@@ -25,7 +26,7 @@ app.get('/notion-word', async (req, res) => {
 
 app.get('/notion-category', async (req, res) => {
     try {
-        const response = await notion.databases.query({ database_id: groupsDatabaseId });
+        const response = await notion.databases.query({ database_id: categoryDatabaseId });
         res.json(response.results);
     } catch (error) {
         console.error(error);
@@ -33,6 +34,25 @@ app.get('/notion-category', async (req, res) => {
     }
 });
 
+app.post('/notion-request-word', async (req, res) => {
+    try {
+        const { word, explanation, userId } = req.body;
+        const response = await notion.pages.create({
+            parent: { database_id: requestDatabaseId },
+            properties: {
+                id: { title: [{ text: { content: userId } }] },
+                word: { rich_text: [{ text: { content: word } }] },
+                explanation: { rich_text: [{ text: { content: explanation } }] },
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'ワードの追加に失敗しました。' });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
