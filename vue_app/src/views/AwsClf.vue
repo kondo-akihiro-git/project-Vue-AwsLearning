@@ -34,8 +34,9 @@ export default {
                 // バックエンドAPIからデータを取得
                 const wordResponse = await axios.get('http://localhost:3000/notion-word');
                 const categoryResponse = await axios.get('http://localhost:3000/notion-category');
+                const typeResponse = await axios.get('http://localhost:3000/notion-type'); 
 
-                const listViewData = this.formatData(wordResponse.data, categoryResponse.data);
+                const listViewData = this.formatData(wordResponse.data, categoryResponse.data, typeResponse.data);
 
                 this.listViewData = listViewData;
             } catch (error) {
@@ -50,7 +51,7 @@ export default {
     // formattedData : カテゴリーと関連するワードのリストがまとまったデータ
     //
     ////////////////////////////////////////////////////////////////////////////////////////////////////   
-        formatData(wordsData, categoriesData) {
+        formatData(wordsData, categoriesData,typesData) {
 
             // カテゴリーデータを { カテゴリーID: カテゴリー名 } の形式にする
             const formattedCategoryData = {};
@@ -60,7 +61,14 @@ export default {
                 const categoryName = categoryData.properties.category.rich_text[0]?.text.content || "未分類";
                 formattedCategoryData[categoryId] = categoryName;
             });
-            console.log("categoryData", formattedCategoryData);
+
+            // タイプID → タイプ名
+            const formattedTypeData = {};
+            typesData.forEach(typeData => {
+                const typeId = typeData.properties.id.title[0]?.text.content;
+                const typeName = typeData.properties.type.rich_text[0]?.text.content || "不明なタイプ";
+                formattedTypeData[typeId] = typeName;
+            });
 
             // ワードデータを { カテゴリー名: [{ ワード名, ワード説明 }, { }...] } の形式にする
             const formattedData = {};
@@ -70,11 +78,13 @@ export default {
                 const explanation = wordData.properties.explanation.rich_text[0]?.text.content || "説明なし"
                 const categoryId = wordData.properties.categoryId.rich_text[0]?.text.content 
                 const categoryNam = formattedCategoryData[categoryId]; 
+                const typeId = wordData.properties.typeId.rich_text[0]?.text.content;
+                const typeName = formattedTypeData[typeId] || "不明なタイプ";
 
                 if (!formattedData[categoryNam]) {
                     formattedData[categoryNam] = [];
                 }
-                formattedData[categoryNam].push({ wordName, explanation });
+                formattedData[categoryNam].push({ wordName, explanation, typeName });
             });
 
             console.log("formattedData", formattedData);
@@ -112,6 +122,7 @@ export default {
         <!-- ワード詳細を表示 -->
         <WordDetail v-if="selectedWordData" :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
         <br>
+        <!-- 新規ワードの登録フォームを表示 -->
         <RequestWord/>
         <br>
         <router-link to="/">ホーム画面に戻る</router-link>
