@@ -18,8 +18,8 @@ export default {
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
-        <h3>{{ word }} の詳細</h3>
-        <p>{{ word }} の説明のテストデータXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+        <div class="is-size-6">{{ word.wordText }} の詳細</div>
+        <div class="is-size-7">{{ word.explanation }} の説明のテストデータXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
     </div>
     <div>
         <a href="#" @click="$emit('closeWordDetailEvent')">元に戻す</a>

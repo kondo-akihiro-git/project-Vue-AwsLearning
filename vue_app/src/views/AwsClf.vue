@@ -22,7 +22,6 @@ export default {
         this.fetchData();
     },
     methods: {
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     //
     // "バックエンドからword_mstデータとcategory_mstデータをAPI取得"
@@ -57,7 +56,7 @@ export default {
     ////////////////////////////////////////////////////////////////////////////////////////////////////   
         formatData(words, categories) {
 
-            // （1） カテゴリーデータを { "categoryId": "グループ名" } の形式に変換
+            // （1） カテゴリーデータを { "カテゴリーID": "カテゴリー名" } の形式に変換
             const categoryData = {};
             categories.forEach(category => {
 
@@ -67,30 +66,19 @@ export default {
             });
             console.log("categoryData", categoryData);
 
-            // （2） ワードデータを { wordId, wordText, explanation, groupId } の形式で保持
-            const wordData = {};
+            // （2） ワードデータを { category: [{ wordText, explanation }] } の形式で保持
+            const formattedData = {};
             words.forEach(word => {
 
-                const wordId = word.properties.id.title[0]?.text.content; 
                 const wordText = word.properties.word.rich_text[0]?.text.content || "不明なワード"
                 const explanation = word.properties.explanation.rich_text[0]?.text.content || "説明なし"
                 const categoryId = word.properties.categoryId.rich_text[0]?.text.content 
-                wordData[wordId] = { wordText, explanation, categoryId }
-            });
-            console.log("wordData", wordData);
-
-            // （3） ワードデータを { "グループ名": ["ワード1", "ワード2"] } の形式に変換
-            const formattedData = {};
-            Object.values(wordData).forEach(({ wordText, categoryId }) => {
-
-                // IDからグループ名を取得
                 const category = categoryData[categoryId]; 
-                if (!category) return;
 
                 if (!formattedData[category]) {
                     formattedData[category] = [];
                 }
-                formattedData[category].push(wordText);
+                formattedData[category].push({ wordText, explanation });
             });
 
             console.log("formattedData", formattedData);
@@ -120,10 +108,10 @@ export default {
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
-        <h1>クラウドプラクティショナー</h1>
+        <div class="is-size-2">クラウドプラクティショナー</div>
 
         <!-- カテゴリとワード一覧を表示 -->
-        <CategoryList :wordsData="categoryListData" @showWordDetailEvent="showWordDetail" />
+        <CategoryList :categoryListData="categoryListData" @showWordDetailEvent="showWordDetail" />
 
         <!-- ワード詳細を表示 -->
         <WordDetail v-if="selectedWord" :word="selectedWord" @closeWordDetailEvent="closeWordDetail" />
