@@ -90,7 +90,7 @@ export default {
 
         <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
         <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
-            新規ワードの追加
+            新規ワードの追加申請
         </button>
         <br>
 
