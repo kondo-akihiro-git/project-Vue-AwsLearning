@@ -1,13 +1,7 @@
 <script>
 export default {
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // word : 選択されたワード
-    // 例 : "コロケーション"
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////    
     props: {
-        word: String
+        selectedWordData: Object
     }
 };
 </script>
@@ -18,8 +12,9 @@ export default {
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
-        <h3>{{ word }} の詳細</h3>
-        <p>{{ word }} の説明のテストデータXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</p>
+        <div class="is-size-6">{{ selectedWordData.wordName }} とは？</div>
+        <div class="is-size-7">{{ selectedWordData.explanation }} </div>
+        <div class="is-size-7"><strong>タイプ:</strong> {{ selectedWordData.typeName }}</div>
     </div>
     <div>
         <a href="#" @click="$emit('closeWordDetailEvent')">元に戻す</a>

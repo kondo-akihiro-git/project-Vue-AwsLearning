@@ -1,110 +1,54 @@
 <script>
-import axios from 'axios';
-import WordDetail from '../components/WordDetail.vue';
-import CategoryList from '../components/CategoryList.vue';
+import { fetchData } from '@/utils/service';
+import WordDetail from '@/components/WordDetail.vue';
+import CategoryList from '@/components/CategoryList.vue';
+import RequestForm from '@/components/RequestForm.vue';
 
 export default {
     // コンポーネントを登録
     components: {
         WordDetail,
-        CategoryList
+        CategoryList,
+        RequestForm
     },
     // データ格納オブジェクト
     data() {
         return {
-            wordsData: {},
-            selectedWord: null,
+            listViewData: {},
+            selectedWordData: null,
+            isRequestWordVisible: false
         };
     },
 
     // マウント時にデータ取得
     mounted() {
-        this.fetchData();
+        this.loadData();
     },
     methods: {
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // "バックエンドからwords_mstデータとgroups_mstデータをAPI取得"
-    //
-    // wordsData : カテゴリーと関連するワードのリスト
-    // 例 : "クラウド": ["クラウド", "コロケーション", "ホスティング"]...
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////   
-        async fetchData() {
-            try {
-                // バックエンドAPIからデータを取得
-                const wordsResponse = await axios.get('http://localhost:3000/notion-words');
-                const groupsResponse = await axios.get('http://localhost:3000/notion-groups');
-
-                const wordsData = this.formatWordsData(wordsResponse.data, groupsResponse.data);
-                console.log()
-                this.wordsData = wordsData;
-            } catch (error) {
-                console.error("データの取得に失敗しました", error);
-            }
+        async loadData() {
+            this.listViewData = await fetchData();
         },
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // "APIレスポンスのデータ整形"
-    //
-    // words, groups : Notionから取得したAPIレスポンス
-    // 例 : "properties":{"explanation":{"id":"Wzsb","type":"rich_text","rich_text"...
-    //
-    // return wordsData : カテゴリーと関連するワードのリスト
-    // 例 : "クラウド": ["クラウド", "コロケーション", "ホスティング"]...
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////   
-        formatWordsData(words, groups) {
-            // （1） グループデータを { "groupId": "グループ名" } の形式に変換
-            const groupData = {};
-            groups.forEach(group => {
-                const groupId = group.properties.id.title[0]?.text.content; 
-                const groupName = group.properties.group.rich_text[0]?.text.content || "未分類";
-                groupData[groupId] = groupName;
-            });
-            console.log("groupData", groupData);
-
-            // （2） ワードデータを一時的に { wordId, wordText, explanation, groupId } の形式で保持
-            const wordData = {};
-            words.forEach(word => {
-
-                const wordId = word.properties.id.title[0]?.text.content; 
-                const wordText = word.properties.word.rich_text[0]?.text.content || "不明なワード"
-                const explanation = word.properties.explanation.rich_text[0]?.text.content || "説明なし"
-                const groupId = word.properties.groupId.rich_text[0]?.text.content 
-                wordData[wordId] = { wordText, explanation, groupId }
-            });
-            console.log("wordData", wordData);
-
-            // （3） ワードデータを { "グループ名": ["ワード1", "ワード2"] } の形式に変換
-            const formattedData = {};
-            Object.values(wordData).forEach(({ wordText, groupId }) => {
-                const category = groupData[groupId]; // IDからグループ名を取得
-                if (!category) return;
-
-                if (!formattedData[category]) {
-                    formattedData[category] = [];
-                }
-                formattedData[category].push(wordText);
-            });
-
-
-            console.log("formattedData", formattedData);
-            return formattedData;
-        },
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         // ワード詳細を表示するメソッド
-        showWordDetail(word) {
-            this.selectedWord = word;
+        showWordDetail(selectedWordData) {
+            this.selectedWordData = selectedWordData;
+            this.isRequestWordVisible = false;
         },
 
         // 詳細を閉じるメソッド
         closeWordDetail() {
-            this.selectedWord = null;
+            this.selectedWordData = null;
+        },
+
+        // 新規ワード追加画面を表示するメソッド
+        showRequestForm() {
+            this.isRequestWordVisible = true;
+            this.selectedWordData = null;
+        },
+
+        // 新規ワード追加画面を閉じるメソッド
+        closeRequestForm() {
+            this.isRequestWordVisible = false;
         }
     }
 };
@@ -113,19 +57,39 @@ export default {
 <template>
     <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
     //
-    // クラウドプラクティショナー取得に関する学習カテゴリーとワードの表示
+    // カテゴリーとワードの一覧表示とワード詳細の表示
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <div>
-        <h1>クラウドプラクティショナー</h1>
+    <div class="container">
+        <div class="is-size-2">クラウドプラクティショナー</div>
+        <br>
 
-        <!-- カテゴリとワード一覧を表示 -->
-        <CategoryList :wordsData="wordsData" @showWordDetailEvent="showWordDetail" />
+        <div class="columns">
+            <!-- カテゴリとワード一覧を表示 (デフォルト表示、ワード選択時はサイドバー化) -->
+            <div :class="{'column is-one-third': selectedWordData, 'column': !selectedWordData}">
+                <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail" v-if="!isRequestWordVisible" />
+            </div>
 
-        <!-- ワード詳細を表示 -->
-        <WordDetail v-if="selectedWord" :word="selectedWord" @closeWordDetailEvent="closeWordDetail" />
+            <!-- ワード詳細を表示 -->
+            <div class="column is-two-thirds" v-if="selectedWordData">
+                <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
+            </div>
+        </div>
 
+        <br>
 
+        <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
+        <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
+            新規ワードの追加
+        </button>
+        <br>
+
+        <!-- 新規ワードの登録フォームを表示 -->
+        <div v-if="isRequestWordVisible">
+            <RequestForm @closeRequestFormEvent="closeRequestForm" />
+        </div>
+
+        <br>
         <router-link to="/">ホーム画面に戻る</router-link>
     </div>
 </template>
