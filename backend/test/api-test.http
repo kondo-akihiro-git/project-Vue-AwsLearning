@@ -1,0 +1,21 @@
+### ワードデータ取得
+GET http://localhost:3000/notion-word
+Accept: application/json
+
+### カテゴリーデータ取得
+GET http://localhost:3000/notion-category
+Accept: application/json
+
+### タイプデータ取得
+GET http://localhost:3000/notion-type
+Accept: application/json
+
+### 新規ワード追加(ロールバック不可)
+POST http://localhost:3000/notion-request-word
+Content-Type: application/json
+
+{
+    "word": "テストワード",
+    "explanation": "これはテスト用の説明です。",
+    "userId": "test-user"
+}
