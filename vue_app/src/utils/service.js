@@ -58,8 +58,14 @@ function formatData(wordsData, categoriesData, typesData) {
         formattedTypeData[typeId] = typeName;
     });
 
+    // カテゴリーID順に並べ替え
+    const sortedCategoryIds = Object.keys(formattedCategoryData).sort((a, b) => {
+        return parseInt(a) - parseInt(b);  // カテゴリーIDを数値として比較してソート
+    });
+
     const formattedData = {};
     wordsData.forEach(wordData => {
+        const wordId = wordData.properties.id.title[0]?.text.content
         const wordName = wordData.properties.word.rich_text[0]?.text.content || "不明なワード";
         const explanation = wordData.properties.explanation.rich_text[0]?.text.content || "説明なし";
         const categoryId = wordData.properties.categoryId.rich_text[0]?.text.content;
@@ -70,8 +76,15 @@ function formatData(wordsData, categoriesData, typesData) {
         if (!formattedData[categoryName]) {
             formattedData[categoryName] = [];
         }
-        formattedData[categoryName].push({ wordName, explanation, typeName });
+        formattedData[categoryName].unshift({ wordId, wordName, explanation, typeName });
     });
 
-    return formattedData;
+    // ソートしたカテゴリー順でデータを返す
+    const sortedFormattedData = {};
+    sortedCategoryIds.forEach(categoryId => {
+        const categoryName = formattedCategoryData[categoryId];
+        sortedFormattedData[categoryName] = formattedData[categoryName];
+    });
+
+    return sortedFormattedData;
 }
