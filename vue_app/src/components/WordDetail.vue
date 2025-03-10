@@ -11,7 +11,7 @@ export default {
     // ワードの詳細情報の表示
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <div>
+    <div class="has-background-success-light">
         <div class="is-size-6">{{ selectedWordData.wordName }} とは？</div>
         <div class="is-size-7">{{ selectedWordData.explanation }} </div>
         <div class="is-size-7"><strong>タイプ:</strong> {{ selectedWordData.typeName }}</div>

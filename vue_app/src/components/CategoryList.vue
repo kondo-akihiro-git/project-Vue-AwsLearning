@@ -31,14 +31,14 @@ export default {
     <div>
         <div v-for="(wordsData, categoryName) in listViewData" :key="categoryName">
             <!-- カテゴリ名をクリックで展開/折りたたみ -->
-            <div class="is-size-3" @click="toggleCategory(categoryName)">
+            <div class="is-size-5 has-background-success m-1" @click="toggleCategory(categoryName)">
                 {{ categoryName }}
             </div>
 
             <!-- ワードリスト（開いているカテゴリーのみ表示）-->
             <div v-if="openCategories.includes(categoryName)">
                 <div v-for="wordData in wordsData" :key="wordData.wordName" @click="$emit('showWordDetailEvent', wordData)">
-                    <div class="is-size-5">{{ wordData.wordName }}</div>
+                    <div class="is-size-6 has-background-light m-1" >{{ wordData.wordName }}</div>
                 </div>
             </div>
         </div>

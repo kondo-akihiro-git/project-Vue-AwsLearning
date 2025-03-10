@@ -76,8 +76,11 @@ export default {
         <div class="columns">
             <!-- カテゴリとワード一覧を表示 (デフォルト表示、ワード選択時はサイドバー化) -->
             <div :class="{ 'column is-one-third': selectedWordData, 'column': !selectedWordData }">
+                <div class="category-list-container">
+
                 <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
                     v-if="!isRequestWordVisible" />
+                    </div>
             </div>
 
             <!-- ワード詳細を表示 -->
@@ -105,3 +108,12 @@ export default {
 
 
 </template>
+
+
+<style scoped>
+/* カテゴリーリストが長い場合にスクロールバーを表示する */
+.category-list-container {
+  max-height: 80vh; /* ビューポート高さの80%に設定 */
+  overflow-y: auto; /* 縦にスクロールバーを表示 */
+}
+</style>
