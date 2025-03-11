@@ -88,3 +88,14 @@ function formatData(wordsData, categoriesData, typesData) {
 
     return sortedFormattedData;
 }
+
+
+export async function fetchAnnouncements() {
+    try {
+        const response = await axios.get('http://localhost:3000/notion-announcements');
+        return response.data;
+    } catch (error) {
+        console.error("お知らせデータの取得に失敗しました", error);
+        return [];
+    }
+}

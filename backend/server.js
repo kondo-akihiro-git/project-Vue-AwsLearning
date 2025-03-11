@@ -93,6 +93,28 @@ app.get('/notion-type', async (req, res) => {
     }
 });
 
+const announcementDatabaseId = process.env.NOTION_ANNOUNCEMENT_MST_DATABASE_ID;
+
+app.get('/notion-announcements', async (req, res) => {
+    try {
+        const response = await notion.databases.query({ database_id: announcementDatabaseId });
+
+        // Notionのレスポンスデータを整形
+        const announcements = response.results.map(item => ({
+            id: item.properties.id.title[0]?.text.content,
+            title: item.properties.title.rich_text[0]?.text.content || "タイトルなし",
+            content: item.properties.content.rich_text[0]?.text.content || "内容なし",
+            created_at: item.properties.created_at.date?.start || "日付なし"
+        }));
+
+        res.json(announcements);
+    } catch (error) {
+        console.error("お知らせデータの取得に失敗しました", error);
+        res.status(500).json({ error: 'お知らせデータの取得に失敗しました。' });
+    }
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
