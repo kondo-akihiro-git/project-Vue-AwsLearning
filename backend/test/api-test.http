@@ -20,6 +20,10 @@ Content-Type: application/json
     "userId": "test-user"
 }
 
+### 周知データ取得
+GET http://localhost:3000/notion-announcements
+Accept: application/json
+
 ### 新規周知追加(ロールバック不可)
 POST http://localhost:3000/notion-announcement
 Content-Type: application/json
