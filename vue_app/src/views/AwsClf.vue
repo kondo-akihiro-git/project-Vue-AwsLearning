@@ -70,21 +70,27 @@ export default {
     </div>
 
     <div v-else class="container">
-        <div class="is-size-2">
-            <router-link to="/">
-            クラウドプラクティショナー
-        </router-link>
+        <div class="is-flex is-align-items-center is-justify-content-space-between m-5">
+            <div class="title is-size-2">
+                <router-link to="/" class="has-text-black">
+                    クラウドプラクティショナー
+                </router-link>
+            </div>
+            <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
+            <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
+                新規ワードの追加申請
+            </button>
         </div>
-        <br>
+
 
         <div class="columns">
             <!-- カテゴリとワード一覧を表示 (デフォルト表示、ワード選択時はサイドバー化) -->
             <div :class="{ 'column is-one-third': selectedWordData, 'column': !selectedWordData }">
                 <div class="category-list-container">
 
-                <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
-                    v-if="!isRequestWordVisible" />
-                    </div>
+                    <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
+                        v-if="!isRequestWordVisible" />
+                </div>
             </div>
 
             <!-- ワード詳細を表示 -->
@@ -92,12 +98,6 @@ export default {
                 <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
             </div>
         </div>
-
-
-        <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
-        <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
-            新規ワードの追加申請
-        </button>
 
         <!-- 新規ワードの登録フォームを表示 -->
         <div v-if="isRequestWordVisible">
@@ -112,7 +112,9 @@ export default {
 <style scoped>
 /* カテゴリーリストが長い場合にスクロールバーを表示する */
 .category-list-container {
-  max-height: 75vh; /* ビューポート高さの80%に設定 */
-  overflow-y: auto; /* 縦にスクロールバーを表示 */
+    max-height: 80vh;
+    /* ビューポート高さの80%に設定 */
+    overflow-y: auto;
+    /* 縦にスクロールバーを表示 */
 }
 </style>
