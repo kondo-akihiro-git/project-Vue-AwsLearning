@@ -16,15 +16,42 @@ const requestDatabaseId = process.env.NOTION_REQUEST_MST_DATABASE_ID;
 const typeDatabaseId = process.env.NOTION_TYPE_MST_DATABASE_ID;
 
 
+// app.get('/notion-word', async (req, res) => {
+//     try {
+//         const response = await notion.databases.query({ database_id: wordDatabaseId });
+//         res.json(response.results);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'ワードデータの取得に失敗しました。' });
+//     }
+// });
+
 app.get('/notion-word', async (req, res) => {
     try {
-        const response = await notion.databases.query({ database_id: wordDatabaseId });
-        res.json(response.results);
+        let allResults = [];
+        let hasMore = true;
+        let startCursor = undefined;
+
+        // 上限の100件以上あるか確認
+        while (hasMore) {
+            const response = await notion.databases.query({
+                database_id: wordDatabaseId,
+                start_cursor: startCursor, // start_cursorを使って次のページを取得
+            });
+
+            allResults = allResults.concat(response.results); // 取得した結果を全て配列に追加
+
+            hasMore = response.has_more; // 次のページがあるか確認
+            startCursor = response.next_cursor; // 次のページのカーソルを設定
+        }
+
+        res.json(allResults);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'ワードデータの取得に失敗しました。' });
     }
 });
+
 
 app.get('/notion-category', async (req, res) => {
     try {
@@ -63,6 +90,49 @@ app.get('/notion-type', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'タイプデータの取得に失敗しました。' });
+    }
+});
+
+const announcementDatabaseId = process.env.NOTION_ANNOUNCEMENT_MST_DATABASE_ID;
+
+app.get('/notion-announcements', async (req, res) => {
+    try {
+        const response = await notion.databases.query({ database_id: announcementDatabaseId });
+
+        // Notionのレスポンスデータを整形
+        const announcements = response.results.map(item => ({
+            announceId: item.properties.announceId.title[0]?.text.content,
+            titleName: item.properties.titleName.rich_text[0]?.text.content || "タイトルなし",
+            content: item.properties.content.rich_text[0]?.text.content || "内容なし",
+            created_at: item.properties.created_at.date?.start || "日付なし"
+        }));
+
+        res.json(announcements);
+    } catch (error) {
+        console.error("お知らせデータの取得に失敗しました", error);
+        res.status(500).json({ error: 'お知らせデータの取得に失敗しました。' });
+    }
+});
+
+app.post('/notion-announcement', async (req, res) => {
+    try {
+        const { announceId, title, content } = req.body;
+        const createdAt = new Date().toISOString(); // 現在の日時を取得
+
+        const response = await notion.pages.create({
+            parent: { database_id: announcementDatabaseId },
+            properties: {
+                announceId: { title: [{ text: { content: announceId } }] }, // 一意のIDを生成
+                titleName: { rich_text: [{ text: { content: title } }] },
+                content: { rich_text: [{ text: { content: content } }] },
+                created_at: { date: { start: createdAt } }
+            }
+        });
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('お知らせの追加に失敗しました', error);
+        res.status(500).json({ error: 'お知らせの追加に失敗しました。' });
     }
 });
 

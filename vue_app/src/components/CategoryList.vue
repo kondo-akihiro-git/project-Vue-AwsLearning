@@ -2,23 +2,90 @@
 export default {
     props: {
         listViewData: Object,
+    },
+    data() {
+        return {
+            openCategories: [],  // 現在展開されているカテゴリーの管理 (複数のカテゴリーを管理)
+            favoriteWords: new Set(),  // お気に入りワードのセット
+        };
+    },
+    created() {
+        this.loadFavorites();
+    },
+    computed: {
+        // お気に入りカテゴリのデータを作成
+        favoriteCategory() {
+            const favorites = Object.values(this.listViewData)
+                .flat()
+                .filter(word => this.favoriteWords.has(word.wordId));
+
+            return favorites.length > 0 ? { "★ お気に入り": favorites } : {};
+        },
+
+        // 全カテゴリー（お気に入り + 通常のカテゴリ）
+        combinedCategories() {
+            return { ...this.favoriteCategory, ...this.listViewData };
+        }
+    },
+    methods: {
+        toggleCategory(categoryName) {
+            if (this.openCategories.includes(categoryName)) {
+                this.openCategories = this.openCategories.filter(cat => cat !== categoryName);
+            } else {
+                this.openCategories.push(categoryName);
+            }
+        },
+
+        // お気に入りの保存・削除
+        toggleFavorite(wordId) {
+            if (this.favoriteWords.has(wordId)) {
+                this.favoriteWords.delete(wordId);
+            } else {
+                this.favoriteWords.add(wordId);
+            }
+            this.saveFavorites();
+        },
+
+        // ローカルストレージにお気に入りを保存
+        saveFavorites() {
+            localStorage.setItem('favoriteWords', JSON.stringify([...this.favoriteWords]));
+        },
+
+        // ローカルストレージからお気に入りを読み込む
+        loadFavorites() {
+            const savedFavorites = JSON.parse(localStorage.getItem('favoriteWords')) || [];
+            this.favoriteWords = new Set(savedFavorites);
+        }
     }
 };
 </script>
+
 <template>
-    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // カテゴリーとワードのデータ一覧表示
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div>
-        <div v-for="(wordsData, categoryName) in listViewData" :key="categoryName">
-            <div class="is-size-3">{{ categoryName }}</div>
-            
-            <div v-for="wordData in wordsData" :key="wordData" @click="$emit('showWordDetailEvent', wordData)">
-                <div class="is-size-5">{{ wordData.wordName }}</div>
+        <div v-for="(wordsData, categoryName) in combinedCategories" :key="categoryName">
+            <!-- カテゴリ名をクリックで展開/折りたたみ -->
+            <div class="is-size-5 has-background-success m-1" @click="toggleCategory(categoryName)">
+                {{ categoryName }}
             </div>
-            
+
+            <!-- ワードリスト（開いているカテゴリーのみ表示）-->
+            <div v-if="openCategories.includes(categoryName)">
+                <div v-for="wordData in wordsData" :key="wordData.wordId" class="word-item is-flex">
+                    <div 
+                        class="is-size-6 m-1 p-2" 
+                        :class="{'has-background-warning': favoriteWords.has(wordData.wordId), 'has-background-light': !favoriteWords.has(wordData.wordId)}"
+                        @click="$emit('showWordDetailEvent', wordData)"
+                        style="flex: 1;"  
+                    >
+                        {{ wordData.wordName }}
+                    </div>
+                    <!-- お気に入りボタン -->
+                    <button class="button is-small is-info m-1 p-2" @click="toggleFavorite(wordData.wordId)">
+                        {{ favoriteWords.has(wordData.wordId) ? '★' : '☆' }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
+
