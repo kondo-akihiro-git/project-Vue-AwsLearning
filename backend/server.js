@@ -101,8 +101,8 @@ app.get('/notion-announcements', async (req, res) => {
 
         // Notionのレスポンスデータを整形
         const announcements = response.results.map(item => ({
-            id: item.properties.id.title[0]?.text.content,
-            title: item.properties.title.rich_text[0]?.text.content || "タイトルなし",
+            announceId: item.properties.announceId.title[0]?.text.content,
+            titleName: item.properties.titleName.rich_text[0]?.text.content || "タイトルなし",
             content: item.properties.content.rich_text[0]?.text.content || "内容なし",
             created_at: item.properties.created_at.date?.start || "日付なし"
         }));
@@ -114,6 +114,27 @@ app.get('/notion-announcements', async (req, res) => {
     }
 });
 
+app.post('/notion-announcement', async (req, res) => {
+    try {
+        const { announceId, title, content } = req.body;
+        const createdAt = new Date().toISOString(); // 現在の日時を取得
+
+        const response = await notion.pages.create({
+            parent: { database_id: announcementDatabaseId },
+            properties: {
+                announceId: { title: [{ text: { content: announceId } }] }, // 一意のIDを生成
+                titleName: { rich_text: [{ text: { content: title } }] },
+                content: { rich_text: [{ text: { content: content } }] },
+                created_at: { date: { start: createdAt } }
+            }
+        });
+
+        res.status(200).json(response);
+    } catch (error) {
+        console.error('お知らせの追加に失敗しました', error);
+        res.status(500).json({ error: 'お知らせの追加に失敗しました。' });
+    }
+});
 
 
 app.listen(PORT, () => {

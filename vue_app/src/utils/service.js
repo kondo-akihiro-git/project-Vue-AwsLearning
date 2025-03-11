@@ -99,3 +99,17 @@ export async function fetchAnnouncements() {
         return [];
     }
 }
+
+
+export async function submitAnnouncement(announceId, title, content) {
+    try {
+        await axios.post('http://localhost:3000/notion-announcement', {
+            announceId,
+            title,
+            content
+        });
+        alert('お知らせが登録されました');
+    } catch (error) {
+        console.error('お知らせの登録に失敗しました', error);
+    }
+}

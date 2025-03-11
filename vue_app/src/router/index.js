@@ -3,6 +3,7 @@ import HomePage from '../views/HomePage.vue';
 import AwsClf from '../views/AwsClf.vue';
 import AwsAif from '../views/AwsAif.vue';
 import AdminNews from '@/views/AdminNews.vue';
+import AdminPage from '@/views/AdminPage.vue';
 
 // 各ページへのルーティング
 const routes = [
@@ -10,6 +11,7 @@ const routes = [
     { path: '/aws-clf', component: AwsClf },
     { path: '/aws-aif', component: AwsAif },
     { path: '/news', component: AdminNews },
+    { path: '/admin', component: AdminPage },
 ];
 
 const router = createRouter({

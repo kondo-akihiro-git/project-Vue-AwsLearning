@@ -19,3 +19,14 @@ Content-Type: application/json
     "explanation": "これはテスト用の説明です。",
     "userId": "test-user"
 }
+
+### 新規周知追加(ロールバック不可)
+POST http://localhost:3000/notion-announcement
+Content-Type: application/json
+
+{
+    "announceId": "テストid",
+    "title": "テストtitle",
+    "content": "テストcontent", 
+    "created_at": "2025年3月11日 12:00"
+}
