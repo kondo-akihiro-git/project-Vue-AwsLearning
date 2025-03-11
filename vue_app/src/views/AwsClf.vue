@@ -70,7 +70,11 @@ export default {
     </div>
 
     <div v-else class="container">
-        <div class="is-size-2">クラウドプラクティショナー</div>
+        <div class="is-size-2">
+            <router-link to="/">
+            クラウドプラクティショナー
+        </router-link>
+        </div>
         <br>
 
         <div class="columns">
@@ -89,21 +93,16 @@ export default {
             </div>
         </div>
 
-        <br>
 
         <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
         <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
             新規ワードの追加申請
         </button>
-        <br>
 
         <!-- 新規ワードの登録フォームを表示 -->
         <div v-if="isRequestWordVisible">
             <RequestForm @closeRequestFormEvent="closeRequestForm" />
         </div>
-
-        <br>
-        <router-link to="/">ホーム画面に戻る</router-link>
     </div>
 
 
@@ -113,7 +112,7 @@ export default {
 <style scoped>
 /* カテゴリーリストが長い場合にスクロールバーを表示する */
 .category-list-container {
-  max-height: 80vh; /* ビューポート高さの80%に設定 */
+  max-height: 75vh; /* ビューポート高さの80%に設定 */
   overflow-y: auto; /* 縦にスクロールバーを表示 */
 }
 </style>
