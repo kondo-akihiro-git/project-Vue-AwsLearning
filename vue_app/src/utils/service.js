@@ -101,10 +101,9 @@ export async function fetchAnnouncements() {
 }
 
 
-export async function submitAnnouncement(announceId, title, content) {
+export async function submitAnnouncement(title, content) {
     try {
         await axios.post('http://localhost:3000/notion-announcement', {
-            announceId,
             title,
             content
         });

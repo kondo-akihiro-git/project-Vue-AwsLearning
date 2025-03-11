@@ -116,13 +116,13 @@ app.get('/notion-announcements', async (req, res) => {
 
 app.post('/notion-announcement', async (req, res) => {
     try {
-        const { announceId, title, content } = req.body;
+        const { title, content } = req.body;
         const createdAt = new Date().toISOString(); // 現在の日時を取得
 
         const response = await notion.pages.create({
             parent: { database_id: announcementDatabaseId },
             properties: {
-                announceId: { title: [{ text: { content: announceId } }] }, // 一意のIDを生成
+                announceId: { title: [{ text: { content: new Date().getTime().toString() } }] }, // 一意のIDを生成
                 titleName: { rich_text: [{ text: { content: title } }] },
                 content: { rich_text: [{ text: { content: content } }] },
                 created_at: { date: { start: createdAt } }
