@@ -48,31 +48,37 @@ export default {
     // 新しいワードの追加申請フォームの表示
     //
     //////////////////////////////////////////////////////////////////////////////////////////////// -->
-    <div>
-        <div>新しいワードの追加申請をリクエスト</div>
-        <form @submit.prevent="submit">
-            <div>
-                <span v-if="defaultError" style="color: red;">{{ defaultError }}</span>
-            </div>
-            <div>
-                <label>ワード名:</label>
-                <input v-model="word" type="text" required />
-                <span v-if="wordError" style="color: red;">{{ wordError }}</span>
-            </div>
-            <div>
-                <label>説明:</label>
-                <textarea v-model="explanation" required></textarea>
-                <span v-if="explanationError" style="color: red;">{{ explanationError }}</span>
-            </div>
-            <div>
-                <label>ユーザーID:</label>
-                <input v-model="userId" type="text" required />
-                <span v-if="userIdError" style="color: red;">{{ userIdError }}</span>
-            </div>
-            <button type="submit" :disabled="hasErrors">追加</button>
-        </form>
-    </div>
-    <div>
-        <a href="#" @click="$emit('closeRequestFormEvent')">元に戻す</a>
+    <div class="container">
+        <section class="section">
+            <h2 class="title">新しいワードの追加申請</h2>
+            <form @submit.prevent="submit" class="box">
+                <div v-if="defaultError" class="notification is-danger">{{ defaultError }}</div>
+                <div class="field">
+                    <label class="label">ワード名</label>
+                    <div class="control">
+                        <input v-model="word" class="input" type="text" required />
+                    </div>
+                    <p v-if="wordError" class="help is-danger">{{ wordError }}</p>
+                </div>
+                <div class="field">
+                    <label class="label">説明</label>
+                    <div class="control">
+                        <textarea v-model="explanation" class="textarea" required></textarea>
+                    </div>
+                    <p v-if="explanationError" class="help is-danger">{{ explanationError }}</p>
+                </div>
+                <div class="field">
+                    <label class="label">ユーザーID</label>
+                    <div class="control">
+                        <input v-model="userId" class="input" type="text" required />
+                    </div>
+                    <p v-if="userIdError" class="help is-danger">{{ userIdError }}</p>
+                </div>
+                <div class="control">
+                    <button type="submit" class="button is-primary" :disabled="hasErrors">追加</button>
+                </div>
+            </form>
+            <button class="button is-light" @click="$emit('closeRequestFormEvent')">元に戻す</button>
+        </section>
     </div>
 </template>
