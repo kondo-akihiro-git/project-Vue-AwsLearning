@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../views/HomePage.vue';
 import AwsClf from '../views/AwsClf.vue';
 import AwsAif from '../views/AwsAif.vue';
-import AdminNews from '@/views/AdminNews.vue';
+import NewsInfo from '@/views/NewsInfo.vue';
 import AdminPage from '@/views/AdminPage.vue';
 
 // 各ページへのルーティング
@@ -10,7 +10,7 @@ const routes = [
     { path: '/', component: HomePage },
     { path: '/aws-clf', component: AwsClf },
     { path: '/aws-aif', component: AwsAif },
-    { path: '/news', component: AdminNews },
+    { path: '/news-info', component: NewsInfo },
     { path: '/admin', component: AdminPage },
 ];
 

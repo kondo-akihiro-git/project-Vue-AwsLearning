@@ -10,6 +10,7 @@ export default {
             userId: defaultValues.userId
         };
     },
+    // バリデーション
     computed: {
         defaultError() {
             return validateDefaultValues(this.word, this.explanation, this.userId);
@@ -43,11 +44,6 @@ export default {
 </script>
 
 <template>
-    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // 新しいワードの追加申請フォームの表示
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <div class="container">
         <section class="section">
             <h2 class="title">新しいワードの追加申請</h2>
