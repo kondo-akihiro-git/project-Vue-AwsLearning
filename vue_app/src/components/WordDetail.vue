@@ -14,6 +14,8 @@ export default {
                     return "tech-term";
                 case "attitude":
                     return "aws-attitude";
+                case "aws term":
+                    return "aws-term";
                 default:
                     return "default-type";
             }
@@ -23,7 +25,9 @@ export default {
                 return "AWSサービス";
             } else if (this.selectedWordData.typeName === "technical term") {
                 return "技術用語";
-            }
+            } else if (this.selectedWordData.typeName === "aws term") {
+                return "AWS用語";
+            }    
             return null;
         }
     }    
@@ -66,6 +70,11 @@ export default {
 
 .aws-attitude {
     background-color: #2d7600 !important; /* 深緑 (AWSの考え方や姿勢を意識) */
+    color: white;
+}
+
+.aws-term {
+    background-color: #ffe600 !important; /*  (AWS用語) */
     color: white;
 }
 
