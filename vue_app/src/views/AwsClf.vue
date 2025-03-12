@@ -3,17 +3,20 @@ import { fetchData } from '@/utils/service';
 import WordDetail from '@/components/WordDetail.vue';
 import CategoryList from '@/components/CategoryList.vue';
 import RequestForm from '@/components/RequestForm.vue';
+import RelatedWords from '@/components/RelatedWords.vue';
 
 export default {
     components: {
         WordDetail,
         CategoryList,
-        RequestForm
+        RequestForm,
+        RelatedWords
     },
     data() {
         return {
             listViewData: {},
             selectedWordData: null,
+            relatedWords: [],
             isRequestWordVisible: false,
             isLoading: true
         };
@@ -34,10 +37,20 @@ export default {
         showWordDetail(selectedWordData) {
             this.selectedWordData = selectedWordData;
             this.isRequestWordVisible = false;
+            this.updateRelatedWords(selectedWordData);
         },
 
         closeWordDetail() {
             this.selectedWordData = null;
+        },
+        updateRelatedWords(word) {
+            if (!word || !word.relatedIds || word.relatedIds.length === 0) {
+                this.relatedWords = [];
+                return;
+            }
+
+            let allWords = Object.values(this.listViewData).flat();
+            this.relatedWords = allWords.filter(w => word.relatedIds.includes(w.wordId));
         },
 
         showRequestForm() {
@@ -83,6 +96,7 @@ export default {
             <!-- ワード詳細を表示 -->
             <div class="column is-two-thirds" v-if="selectedWordData">
                 <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
+                <RelatedWords :relatedWords="relatedWords" @showWordDetailEvent="showWordDetail" />
             </div>
         </div>
 

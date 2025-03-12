@@ -36,11 +36,14 @@ export function formatData(wordsData, categoriesData, typesData) {
             const categoryName = formattedCategoryData[categoryId];
             const typeId = wordData.properties.typeId.rich_text[0]?.text.content;
             const typeName = formattedTypeData[typeId] || "不明なタイプ";
+            const relatedIds = wordData.properties.relatedId?.rich_text[0]?.text.content
+            ? wordData.properties.relatedId.rich_text[0].text.content.split(",").map(id => id.trim())
+            : [];
     
             if (!formattedData[categoryName]) {
                 formattedData[categoryName] = [];
             }
-            formattedData[categoryName].unshift({ wordId, wordName, explanation, typeName });
+            formattedData[categoryName].unshift({ wordId, wordName, explanation, typeName, relatedIds });
         });
     
         // ソートしたカテゴリー順でデータを返す
