@@ -35,4 +35,6 @@ Content-Type: application/json
     "created_at": "2025年3月11日 12:00"
 }
 
-
+### ユーザーデータ取得
+GET http://localhost:3000/notion-auth
+Accept: application/json
