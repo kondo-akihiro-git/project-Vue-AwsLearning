@@ -54,9 +54,9 @@ export default {
 
 <template>
     <!-- ローディング状態の表示 -->
-    <div v-if="isLoading" class="has-text-centered">
-        <p>データを読み込み中...</p>
-    </div>
+    <div v-if="isLoading" class="loading-overlay">
+    <p class="loading-icon">データ読み込み中</p>
+</div>
 
     <div v-else class="container">
         <div class="is-flex is-align-items-center is-justify-content-space-between m-5">
@@ -101,4 +101,32 @@ export default {
     max-height: 80vh;/* ビューポート高さの80%に設定 */
     overflow-y: auto;/* 縦にスクロールバーを表示 */
 }
+
+/* ローディング表示の中央配置 */
+.loading-overlay {
+    position: fixed; /* 画面に固定 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center; /* 水平方向に中央 */
+    align-items: center; /* 垂直方向に中央 */
+    background-color: rgba(255, 255, 255, 0.7); /* 半透明の背景 */
+    z-index: 1000; /* 他のコンテンツより前面に表示 */
+}
+.loading-icon::after {
+    content: '.';
+    animation: dot-blinking 1.5s steps(3, end) infinite;
+    font-size: 2rem; /* 大きな文字に */
+}
+
+@keyframes dot-blinking {
+    0% { content: '.'; }
+    33% { content: '..'; }
+    66% { content: '...'; }
+    100% { content: '.'; }
+}
+
+
 </style>
