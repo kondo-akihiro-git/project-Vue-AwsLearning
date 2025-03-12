@@ -14,17 +14,7 @@ const wordDatabaseId = process.env.NOTION_WORD_MST_DATABASE_ID;
 const categoryDatabaseId = process.env.NOTION_CATEGORY_MST_DATABASE_ID;
 const requestDatabaseId = process.env.NOTION_REQUEST_MST_DATABASE_ID;
 const typeDatabaseId = process.env.NOTION_TYPE_MST_DATABASE_ID;
-
-
-// app.get('/notion-word', async (req, res) => {
-//     try {
-//         const response = await notion.databases.query({ database_id: wordDatabaseId });
-//         res.json(response.results);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'ワードデータの取得に失敗しました。' });
-//     }
-// });
+const announcementDatabaseId = process.env.NOTION_ANNOUNCEMENT_MST_DATABASE_ID;
 
 app.get('/notion-word', async (req, res) => {
     try {
@@ -36,13 +26,13 @@ app.get('/notion-word', async (req, res) => {
         while (hasMore) {
             const response = await notion.databases.query({
                 database_id: wordDatabaseId,
-                start_cursor: startCursor, // start_cursorを使って次のページを取得
+                start_cursor: startCursor, 
             });
 
-            allResults = allResults.concat(response.results); // 取得した結果を全て配列に追加
+            allResults = allResults.concat(response.results);
 
-            hasMore = response.has_more; // 次のページがあるか確認
-            startCursor = response.next_cursor; // 次のページのカーソルを設定
+            hasMore = response.has_more; 
+            startCursor = response.next_cursor; 
         }
 
         res.json(allResults);
@@ -93,7 +83,6 @@ app.get('/notion-type', async (req, res) => {
     }
 });
 
-const announcementDatabaseId = process.env.NOTION_ANNOUNCEMENT_MST_DATABASE_ID;
 
 app.get('/notion-announcements', async (req, res) => {
     try {
@@ -117,12 +106,13 @@ app.get('/notion-announcements', async (req, res) => {
 app.post('/notion-announcement', async (req, res) => {
     try {
         const { title, content } = req.body;
-        const createdAt = new Date().toISOString(); // 現在の日時を取得
+        const createdAt = new Date().toISOString(); 
+        const idByCurrentTime = new Date().getTime().toString()
 
         const response = await notion.pages.create({
             parent: { database_id: announcementDatabaseId },
             properties: {
-                announceId: { title: [{ text: { content: new Date().getTime().toString() } }] }, // 一意のIDを生成
+                announceId: { title: [{ text: { content: idByCurrentTime } }] }, 
                 titleName: { rich_text: [{ text: { content: title } }] },
                 content: { rich_text: [{ text: { content: content } }] },
                 created_at: { date: { start: createdAt } }
