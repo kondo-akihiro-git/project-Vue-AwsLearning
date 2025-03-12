@@ -92,7 +92,7 @@ function formatData(wordsData, categoriesData, typesData) {
 
 export async function fetchAnnouncements() {
     try {
-        const response = await axios.get('http://localhost:3000/notion-announcements');
+        const response = await axios.get('http://localhost:3000/notion-announcement');
         return response.data;
     } catch (error) {
         console.error("お知らせデータの取得に失敗しました", error);
