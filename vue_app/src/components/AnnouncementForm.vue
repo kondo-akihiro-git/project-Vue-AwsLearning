@@ -30,25 +30,22 @@ export default {
 
 <template>
     <div class="box">
-        <h2 class="title is-3">お知らせの登録</h2>
+        <h2 class="title is-3">周知事項の登録</h2>
         <form @submit.prevent="submit">
-            <!-- Title Field -->
             <div class="field">
-                <label class="label">タイトル</label>
+                <label class="label">周知タイトル</label>
                 <div class="control">
                     <input v-model="title" class="input is-medium" type="text" placeholder="タイトルを入力" required />
                 </div>
             </div>
             
-            <!-- Content Field -->
             <div class="field">
-                <label class="label">内容</label>
+                <label class="label">周知内容</label>
                 <div class="control">
                     <textarea v-model="content" class="textarea is-medium" placeholder="内容を入力" required></textarea>
                 </div>
             </div>
 
-            <!-- Submit Button -->
             <div class="field is-grouped is-grouped-centered">
                 <div class="control">
                     <button type="submit" class="button is-primary is-medium">登録</button>
@@ -56,7 +53,6 @@ export default {
             </div>
         </form>
 
-        <!-- Back Button -->
         <div class="field is-grouped is-grouped-centered">
             <div class="control">
                 <button @click="$emit('closeForm')" class="button is-light is-medium">戻る</button>

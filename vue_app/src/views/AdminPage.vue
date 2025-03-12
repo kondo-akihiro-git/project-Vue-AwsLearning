@@ -12,6 +12,7 @@ export default {
         };
     },
     methods: {
+        // 周知フォームの表示切り替え
         toggleForm() {
             this.showForm = !this.showForm;
         }
@@ -24,7 +25,7 @@ export default {
         <section class="section">
             <h2 class="title is-3">管理画面</h2>
 
-            <!-- ボタンでフォームの表示・非表示を切り替え -->
+            <!-- 周知フォームの表示の切り替えボタン -->
             <div class="field is-grouped is-grouped-centered">
                 <div class="control">
                     <button @click="toggleForm" class="button is-primary is-medium">
@@ -33,7 +34,7 @@ export default {
                 </div>
             </div>
 
-            <!-- フォーム表示 -->
+            <!-- 周知フォーム表示 -->
             <div v-if="showForm">
                 <AnnouncementForm @formSubmitted="showForm = false" @closeForm="showForm = false" />
             </div>

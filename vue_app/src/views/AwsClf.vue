@@ -5,13 +5,11 @@ import CategoryList from '@/components/CategoryList.vue';
 import RequestForm from '@/components/RequestForm.vue';
 
 export default {
-    // コンポーネントを登録
     components: {
         WordDetail,
         CategoryList,
         RequestForm
     },
-    // データ格納オブジェクト
     data() {
         return {
             listViewData: {},
@@ -32,24 +30,21 @@ export default {
             this.isLoading = false;
         },
 
-        // ワード詳細を表示するメソッド
+        // コンポーネントの表示切り替え
         showWordDetail(selectedWordData) {
             this.selectedWordData = selectedWordData;
             this.isRequestWordVisible = false;
         },
 
-        // 詳細を閉じるメソッド
         closeWordDetail() {
             this.selectedWordData = null;
         },
 
-        // 新規ワード追加画面を表示するメソッド
         showRequestForm() {
             this.isRequestWordVisible = true;
             this.selectedWordData = null;
         },
 
-        // 新規ワード追加画面を閉じるメソッド
         closeRequestForm() {
             this.isRequestWordVisible = false;
         }
@@ -58,15 +53,9 @@ export default {
 </script>
 
 <template>
-    <!-- ///////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // カテゴリーとワードの一覧表示とワード詳細の表示
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////// -->
     <!-- ローディング状態の表示 -->
     <div v-if="isLoading" class="has-text-centered">
         <p>データを読み込み中...</p>
-        <!-- スピナーなどを表示することも可能 -->
     </div>
 
     <div v-else class="container">
@@ -76,15 +65,13 @@ export default {
                     クラウドプラクティショナー
                 </router-link>
             </div>
-            <!-- 新規ワードの追加ボタン (RequestWord 表示時は非表示) -->
             <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
                 新規ワードの追加申請
             </button>
         </div>
 
-
         <div class="columns">
-            <!-- カテゴリとワード一覧を表示 (デフォルト表示、ワード選択時はサイドバー化) -->
+            <!-- カテゴリとワード一覧を表示-->
             <div :class="{ 'column is-one-third': selectedWordData, 'column': !selectedWordData }">
                 <div class="category-list-container">
 
@@ -99,7 +86,7 @@ export default {
             </div>
         </div>
 
-        <!-- 新規ワードの登録フォームを表示 -->
+        <!-- 新規ワードの追加申請フォームを表示 -->
         <div v-if="isRequestWordVisible">
             <RequestForm @closeRequestFormEvent="closeRequestForm" />
         </div>
@@ -110,11 +97,8 @@ export default {
 
 
 <style scoped>
-/* カテゴリーリストが長い場合にスクロールバーを表示する */
 .category-list-container {
-    max-height: 80vh;
-    /* ビューポート高さの80%に設定 */
-    overflow-y: auto;
-    /* 縦にスクロールバーを表示 */
+    max-height: 80vh;/* ビューポート高さの80%に設定 */
+    overflow-y: auto;/* 縦にスクロールバーを表示 */
 }
 </style>

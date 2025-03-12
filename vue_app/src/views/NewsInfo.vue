@@ -1,3 +1,33 @@
+
+<script>
+import { fetchAnnouncements } from '@/utils/service';
+
+export default {
+    data() {
+        return {
+            announcements: []
+        };
+    },
+    async created() {
+        const allAnnouncements = await fetchAnnouncements();
+
+        // 2ヶ月以内のものだけを表示
+        const twoMonthsAgo = new Date();
+        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);        
+        this.announcements = allAnnouncements.filter(announcement => {
+            return new Date(announcement.created_at) >= twoMonthsAgo;
+        });
+    },
+    methods: {
+        // 日付フォーマット
+        formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString("ja-JP", { year: 'numeric', month: '2-digit', day: '2-digit' });
+        }
+    }
+};
+</script>
+
 <template>
     <div class="container">
         <section class="section">
@@ -16,35 +46,6 @@
         </section>
     </div>
 </template>
-
-<script>
-import { fetchAnnouncements } from '@/utils/service';
-
-export default {
-    data() {
-        return {
-            announcements: []
-        };
-    },
-    async created() {
-        const allAnnouncements = await fetchAnnouncements();
-        const twoMonthsAgo = new Date();
-        twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 2);
-
-        // 2ヶ月以内のものだけを表示
-        this.announcements = allAnnouncements.filter(announcement => {
-            return new Date(announcement.created_at) >= twoMonthsAgo;
-        });
-    },
-    methods: {
-        formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString("ja-JP", { year: 'numeric', month: '2-digit', day: '2-digit' });
-        }
-    }
-};
-</script>
-
 
 <style scoped>
 .announcement-list-container {
