@@ -64,7 +64,7 @@ export default {
     <div>
         <div v-for="(wordsData, categoryName) in combinedCategories" :key="categoryName">
             <!-- カテゴリ名をクリックで展開/折りたたみ -->
-            <div class="is-size-5 has-background-success m-1" @click="toggleCategory(categoryName)">
+            <div class="box is-size-5 has-background-success m-1 p-2" @click="toggleCategory(categoryName)">
                 {{ categoryName }}
             </div>
 
@@ -72,7 +72,7 @@ export default {
             <div v-if="openCategories.includes(categoryName)">
                 <div v-for="wordData in wordsData" :key="wordData.wordId" class="word-item is-flex">
                     <div 
-                        class="is-size-6 m-1 p-2" 
+                        class="box is-size-6 m-1 p-2" 
                         :class="{'has-background-warning': favoriteWords.has(wordData.wordId), 'has-background-light': !favoriteWords.has(wordData.wordId)}"
                         @click="$emit('showWordDetailEvent', wordData)"
                         style="flex: 1;"  
@@ -89,3 +89,17 @@ export default {
     </div>
 </template>
 
+<style scoped>
+.has-background-success {
+    background-color: #ff9900 !important; /* AWSオレンジ */
+}
+
+.button.is-info {
+    background-color: #0073bb !important; /* AWSブルー */
+    color: white;
+}
+
+.word-item {
+    padding: 10px;
+}
+</style>

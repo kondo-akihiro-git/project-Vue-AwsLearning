@@ -12,33 +12,19 @@ export default {
 </script>
 
 <template>
-    <div class="related-words-container">
-        <h3 class="title is-4">関連ワード</h3>
+    <div class="box">
+        <h3 class="title is-4 m-2 mb-4">関連度の高いワード</h3>
         <div v-if="relatedWords.length > 0">
-            <ul>
-                <li v-for="word in relatedWords" :key="word.wordId">
+            <div>
+                <div v-for="word in relatedWords" :key="word.wordId">
+                    <div class="m-2">
                     <button class="button is-small is-info" @click="selectWord(word)">
                         {{ word.wordName }}
                     </button>
-                </li>
-            </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <p v-else>関連ワードはありません</p>
+        <p  class="m-2" v-else>関連ワードはありません</p>
     </div>
 </template>
-
-<style scoped>
-.related-words-container {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-}
-ul {
-    list-style: none;
-    padding: 0;
-}
-li {
-    margin-bottom: 5px;
-}
-</style>
