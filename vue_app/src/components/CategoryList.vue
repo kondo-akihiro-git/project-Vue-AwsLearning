@@ -64,23 +64,24 @@ export default {
     <div>
         <div v-for="(wordsData, categoryName) in combinedCategories" :key="categoryName">
             <!-- カテゴリ名をクリックで展開/折りたたみ -->
-            <div class="box is-size-5 has-background-success m-1 p-2" @click="toggleCategory(categoryName)">
+            <div class="box is-shadowless is-size-5 has-background-light mb-2 mt-2 p-2" @click="toggleCategory(categoryName)">
                 {{ categoryName }}
             </div>
+            
 
             <!-- ワードリスト（開いているカテゴリーのみ表示）-->
             <div v-if="openCategories.includes(categoryName)">
-                <div v-for="wordData in wordsData" :key="wordData.wordId" class="word-item is-flex">
+                <div v-for="wordData in wordsData" :key="wordData.wordId" class="is-flex">
                     <div 
                         class="box is-size-6 m-1 p-2" 
-                        :class="{'has-background-warning': favoriteWords.has(wordData.wordId), 'has-background-light': !favoriteWords.has(wordData.wordId)}"
+                        :class="{'has-background-warning': favoriteWords.has(wordData.wordId), 'has-background-white': !favoriteWords.has(wordData.wordId)}"
                         @click="$emit('showWordDetailEvent', wordData)"
                         style="flex: 1;"  
                     >
                         {{ wordData.wordName }}
                     </div>
                     <!-- お気に入りボタン -->
-                    <button class="button is-small is-info m-1 p-2" @click="toggleFavorite(wordData.wordId)">
+                    <button class="box is-small has-background-white m-1 p-2" @click="toggleFavorite(wordData.wordId)">
                         {{ favoriteWords.has(wordData.wordId) ? '★' : '☆' }}
                     </button>
                 </div>
@@ -88,18 +89,3 @@ export default {
         </div>
     </div>
 </template>
-
-<style scoped>
-.has-background-success {
-    background-color: #ff9900 !important; /* AWSオレンジ */
-}
-
-.button.is-info {
-    background-color: #0073bb !important; /* AWSブルー */
-    color: white;
-}
-
-.word-item {
-    padding: 10px;
-}
-</style>
