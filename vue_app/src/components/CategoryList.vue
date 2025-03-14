@@ -59,7 +59,6 @@ export default {
     }
 };
 </script>
-
 <template>
     <div>
         <div v-for="(wordsData, categoryName) in combinedCategories" :key="categoryName">
@@ -67,21 +66,21 @@ export default {
             <div class="box is-shadowless is-size-5 has-background-light mb-2 mt-2 p-2" @click="toggleCategory(categoryName)">
                 {{ categoryName }}
             </div>
-            
 
             <!-- ワードリスト（開いているカテゴリーのみ表示）-->
             <div v-if="openCategories.includes(categoryName)">
                 <div v-for="wordData in wordsData" :key="wordData.wordId" class="is-flex">
                     <div 
-                        class="box is-size-6 m-1 p-2" 
-                        :class="{'has-background-warning': favoriteWords.has(wordData.wordId), 'has-background-white': !favoriteWords.has(wordData.wordId)}"
+                        class="box is-size-6 m-1 p-2 has-background-white" 
                         @click="$emit('showWordDetailEvent', wordData)"
                         style="flex: 1;"  
                     >
                         {{ wordData.wordName }}
                     </div>
                     <!-- お気に入りボタン -->
-                    <button class="box is-small has-background-white m-1 p-2" @click="toggleFavorite(wordData.wordId)">
+                    <button class="box is-small has-background-white m-1 p-2" 
+                        @click="toggleFavorite(wordData.wordId)"
+                        :style="{ color: favoriteWords.has(wordData.wordId) ? '#ff9900' : '' }">
                         {{ favoriteWords.has(wordData.wordId) ? '★' : '☆' }}
                     </button>
                 </div>

@@ -78,7 +78,7 @@ export default {
                     クラウドプラクティショナー
                 </router-link>
             </div>
-            <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
+            <button v-if="!isRequestWordVisible" class="button" @click="showRequestForm">
                 新規ワードの追加申請
             </button>
         </div>
@@ -112,7 +112,7 @@ export default {
 
 <style scoped>
 .category-list-container {
-    max-height: 80vh;/* ビューポート高さの80%に設定 */
+    max-height: 75vh;/* ビューポート高さの80%に設定 */
     overflow-y: auto;/* 縦にスクロールバーを表示 */
 }
 
