@@ -72,10 +72,10 @@ export default {
 </div>
 
     <div v-else class="container">
-        <div class="is-flex is-align-items-center is-justify-content-space-between m-5">
+        <div class="is-flex is-align-items-center is-justify-content-space-between m-2">
             <div class="title is-size-2">
                 <router-link to="/" class="has-text-black">
-                    クラウドプラクティショナー
+                    <img src="/awsLogoTest.png" alt="AWS Logo" class="logo" />
                 </router-link>
             </div>
             <button v-if="!isRequestWordVisible" class="button" @click="showRequestForm">
@@ -112,7 +112,7 @@ export default {
 
 <style scoped>
 .category-list-container {
-    max-height: 75vh;/* ビューポート高さの80%に設定 */
+    max-height: 70vh;/* ビューポート高さの80%に設定 */
     overflow-y: auto;/* 縦にスクロールバーを表示 */
 }
 
