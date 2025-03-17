@@ -72,8 +72,8 @@ export default {
 </div>
 
     <div v-else class="container">
-        <div class="is-flex is-align-items-center is-justify-content-space-between m-2">
-            <div class="title is-size-2">
+        <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
+            <div class="logo-container">
                 <router-link to="/" class="has-text-black">
                     <img src="/awsLogoTest.png" alt="AWS Logo" class="logo" />
                 </router-link>
@@ -112,7 +112,7 @@ export default {
 
 <style scoped>
 .category-list-container {
-    max-height: 70vh;/* ビューポート高さの80%に設定 */
+    max-height: 80vh;/* ビューポート高さの80%に設定 */
     overflow-y: auto;/* 縦にスクロールバーを表示 */
 }
 
@@ -142,5 +142,22 @@ export default {
     100% { content: '.'; }
 }
 
+/* ヘッダーの高さ */
+.header-container {
+    min-height: 12vh; /* 画面の15%の高さ */
+}
+
+/* ロゴとボタンの高さを揃える */
+.logo-container {
+    display: flex;
+    align-items: center; /* ロゴを上下中央揃え */
+}
+
+/* ロゴ画像の中央配置 */
+.logo {
+    display: block;
+    height: auto; /* 縦横比を維持 */
+    max-height: 10vh; /* 画面の10%の高さ */
+}
 
 </style>
