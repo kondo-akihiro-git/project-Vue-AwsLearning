@@ -29,12 +29,12 @@ export function validateUserId(userId) {
 
 export function validateDefaultValues(word, explanation, userId) {
     const defaultList = [];
-    if (word === defaultWord) defaultList.push("ワード名");
-    if (explanation === defaultExplanation) defaultList.push("説明");
-    if (userId === defaultUserId) defaultList.push("ユーザーID");
+    if (word === defaultWord) defaultList.push("ワード名欄");
+    if (explanation === defaultExplanation) defaultList.push("説明欄");
+    if (userId === defaultUserId) defaultList.push("ユーザーID欄");
 
     return defaultList.length > 0
-        ? `(${defaultList.join('、')}) に具体例が記入されています。`
+        ? `${defaultList.join('、')} の具体例を変更後、追加ボタンを押してください。`
         : "";
 }
 
