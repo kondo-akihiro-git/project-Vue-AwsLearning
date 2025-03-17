@@ -29,7 +29,7 @@ export default {
 
 <template>
     <div class="box">
-        <h3 class="title is-4 m-2 mb-4">関連度の高いワード</h3>
+        <h3 class="title is-5 m-2 mb-4">関連度の高いワード</h3>
         <div v-if="relatedWords.length > 0" class="columns is-multiline is-mobile is-gapless">
             <div v-for="word in relatedWords" :key="word.wordId" class="column is-narrow">
                 <button 
