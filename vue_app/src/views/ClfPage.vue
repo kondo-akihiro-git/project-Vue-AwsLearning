@@ -75,7 +75,7 @@ export default {
         <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
             <div class="logo-container">
                 <router-link to="/" class="has-text-black">
-                    <img src="/awsLogoTest.png" alt="AWS Logo" class="logo" />
+                    <img src="@/assets/logo.png" alt="AWS Logo" class="logo" />
                 </router-link>
             </div>
             <button v-if="!isRequestWordVisible" class="button" @click="showRequestForm">
