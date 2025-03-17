@@ -33,7 +33,7 @@ export default {
         <div v-if="relatedWords.length > 0" class="columns is-multiline is-mobile is-gapless">
             <div v-for="word in relatedWords" :key="word.wordId" class="column is-narrow">
                 <button 
-                    class="button mx-1 my-1" 
+                    class="button mx-1 my-1 is-light" 
                     :class="getTypeClass(word.typeName)" 
                     @click="selectWord(word)">
                     {{ word.wordName }}
@@ -47,26 +47,27 @@ export default {
 <style scoped>
 /* Typeに応じたボーダー色の設定 */
 .border-aws-service {
-    border-color: #ff9900 !important;
+    background-color: rgba(255, 153, 0, 0.2) !important;
 }
 
 .border-tech-method {
-    border-color: #0073bb !important;
+    background-color: rgba(0, 115, 187, 0.2) !important;
 }
 
 .border-tech-term {
-    border-color: #333333 !important;
+    background-color: rgba(51, 51, 51, 0.2) !important;
 }
 
 .border-aws-attitude {
-    border-color: #2d7600 !important;
+    background-color: rgba(45, 118, 0, 0.2) !important;
 }
 
 .border-aws-term {
-    border-color: #ffe600 !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
 }
 
 .border-default-type {
-    border-color: #e0e0e0 !important;
+    background-color: rgba(224, 224, 224, 0.2) !important;
 }
+
 </style>

@@ -55,6 +55,22 @@ export default {
         loadFavorites() {
             const savedFavorites = JSON.parse(localStorage.getItem('favoriteWords')) || [];
             this.favoriteWords = new Set(savedFavorites);
+        },
+        getTypeClass(typeName) {
+            switch (typeName) {
+                case "service":
+                    return "border-aws-service";
+                case "method":
+                    return "border-tech-method";
+                case "technical term":
+                    return "border-tech-term";
+                case "attitude":
+                    return "border-aws-attitude";
+                case "aws term":
+                    return "border-aws-term";
+                default:
+                    return "border-default-type";
+            }
         }
     }
 };
@@ -63,7 +79,7 @@ export default {
     <div>
         <div v-for="(wordsData, categoryName) in combinedCategories" :key="categoryName">
             <!-- カテゴリ名をクリックで展開/折りたたみ -->
-            <div class="box is-shadowless is-size-5 has-background-light mb-2 mt-2 p-2" @click="toggleCategory(categoryName)">
+            <div class="box is-shadowless is-size-5 has-background-light mb-2 mt-2 p-2 has-text-weight-semibold" @click="toggleCategory(categoryName)">
                 {{ categoryName }}
             </div>
 
@@ -73,6 +89,7 @@ export default {
                     <div 
                         class="box is-size-6 m-1 p-2 has-background-white" 
                         @click="$emit('showWordDetailEvent', wordData)"
+                        :class="getTypeClass(wordData.typeName)"
                         style="flex: 1;"  
                     >
                         {{ wordData.wordName }}
@@ -88,3 +105,32 @@ export default {
         </div>
     </div>
 </template>
+
+<style scoped>
+/* Typeに応じたボーダー色の設定 */
+.border-aws-service {
+    background-color: rgba(255, 153, 0, 0.2) !important;
+}
+
+.border-tech-method {
+    background-color: rgba(0, 115, 187, 0.2) !important;
+}
+
+.border-tech-term {
+    background-color: rgba(51, 51, 51, 0.2) !important;
+}
+
+.border-aws-attitude {
+    background-color: rgba(45, 118, 0, 0.2) !important;
+}
+
+.border-aws-term {
+    background-color: rgba(255, 230, 0, 0.2) !important;
+}
+
+.border-default-type {
+    background-color: rgba(224, 224, 224, 0.2) !important;
+}
+
+
+</style>
