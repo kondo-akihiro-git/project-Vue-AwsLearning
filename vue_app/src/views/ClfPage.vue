@@ -40,6 +40,7 @@ export default {
         showWordDetail(selectedWordData) {
             this.selectedWordData = selectedWordData;
             this.isRequestWordVisible = false;
+            this.isModificationFormVisible = false;
             this.updateRelatedWords(selectedWordData);
         },
 
@@ -58,6 +59,7 @@ export default {
 
         showRequestForm() {
             this.isRequestWordVisible = true;
+            this.isModificationFormVisible = false;
             this.selectedWordData = null;
         },
 
@@ -68,6 +70,7 @@ export default {
 // 修正依頼フォームを表示
 showModificationForm() {
     this.isModificationFormVisible = true;
+    this.isRequestWordVisible = false;
     this.selectedWordData = null;
 },
 
@@ -92,10 +95,10 @@ closeModificationForm() {
                 </router-link>
             </div>
             <div>
-            <button class="button" @click="showModificationForm">
+                <button v-if="!isModificationFormVisible && !isRequestWordVisible " class="button" @click="showModificationForm">
                 既存ワードの修正依頼
             </button>
-            <button v-if="!isRequestWordVisible" class="button ml-2" @click="showRequestForm">
+            <button v-if="!isRequestWordVisible && !isModificationFormVisible " class="button ml-2" @click="showRequestForm">
                 新規ワードの追加申請
             </button>
         </div>
@@ -107,23 +110,23 @@ closeModificationForm() {
                 <div class="category-list-container">
 
                     <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
-                        v-if="!isRequestWordVisible" />
+                        v-if="!isRequestWordVisible && !isModificationFormVisible" />
                 </div>
             </div>
 
             <!-- ワード詳細を表示 -->
-            <div class="column is-two-thirds ml-3" v-if="selectedWordData">
+            <div class="column is-two-thirds ml-3" v-if="selectedWordData && !isRequestWordVisible && !isModificationFormVisible">
                 <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
                 <RelatedWords :relatedWords="relatedWords" @showWordDetailEvent="showWordDetail" />
             </div>
         </div>
 
         <!-- 新規ワードの追加申請フォームを表示 -->
-        <div v-if="isRequestWordVisible">
+        <div  v-if="isRequestWordVisible && !selectedWordData && !isModificationFormVisible">
             <RequestForm @closeRequestFormEvent="closeRequestForm" />
         </div>
 
-        <div v-if="isModificationFormVisible">
+        <div v-if="isModificationFormVisible && !selectedWordData && !isRequestWordVisible">
             <ModificationForm @closeModificationFormEvent="closeModificationForm" />
         </div>
     </div>
