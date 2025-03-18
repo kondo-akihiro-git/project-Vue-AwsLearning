@@ -4,13 +4,15 @@ import WordDetail from '@/components/WordDetail.vue';
 import CategoryList from '@/components/CategoryList.vue';
 import RequestForm from '@/components/RequestForm.vue';
 import RelatedWords from '@/components/RelatedWords.vue';
+import ModificationForm from '@/components/ModificationForm.vue';
 
 export default {
     components: {
         WordDetail,
         CategoryList,
         RequestForm,
-        RelatedWords
+        RelatedWords,
+        ModificationForm
     },
     data() {
         return {
@@ -18,6 +20,7 @@ export default {
             selectedWordData: null,
             relatedWords: [],
             isRequestWordVisible: false,
+            isModificationFormVisible: false, 
             isLoading: true
         };
     },
@@ -60,7 +63,17 @@ export default {
 
         closeRequestForm() {
             this.isRequestWordVisible = false;
-        }
+        },
+
+// 修正依頼フォームを表示
+showModificationForm() {
+    this.isModificationFormVisible = true;
+    this.selectedWordData = null;
+},
+
+closeModificationForm() {
+    this.isModificationFormVisible = false;
+}
     }
 };
 </script>
@@ -78,9 +91,14 @@ export default {
                     <img src="@/assets/logo.png" alt="AWS Logo" class="logo" />
                 </router-link>
             </div>
-            <button v-if="!isRequestWordVisible" class="button" @click="showRequestForm">
+            <div>
+            <button class="button" @click="showModificationForm">
+                既存ワードの修正依頼
+            </button>
+            <button v-if="!isRequestWordVisible" class="button ml-2" @click="showRequestForm">
                 新規ワードの追加申請
             </button>
+        </div>
         </div>
 
         <div class="columns">
@@ -103,6 +121,10 @@ export default {
         <!-- 新規ワードの追加申請フォームを表示 -->
         <div v-if="isRequestWordVisible">
             <RequestForm @closeRequestFormEvent="closeRequestForm" />
+        </div>
+
+        <div v-if="isModificationFormVisible">
+            <ModificationForm @closeModificationFormEvent="closeModificationForm" />
         </div>
     </div>
 

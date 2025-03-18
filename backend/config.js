@@ -12,6 +12,7 @@ const config = {
         type: process.env.NOTION_TYPE_MST_DATABASE_ID,
         announcement: process.env.NOTION_ANNOUNCEMENT_MST_DATABASE_ID,
         user: process.env.NOTION_USER_MST_DATABASE_ID,
+        modification: process.env.NOTION_MODIFICATION_MST_DATABASE_ID,
     }
 };
 

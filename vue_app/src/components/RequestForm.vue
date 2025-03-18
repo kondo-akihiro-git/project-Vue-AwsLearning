@@ -77,7 +77,7 @@ export default {
                         <button type="submit" class="button is-primary" :disabled="hasErrors">追加</button>
                     </div>
                     <div class="control">
-                        <button type="button" class="button is-light" @click="$emit('closeRequestFormEvent')">元に戻す</button>
+                        <button type="button" class="button is-light" @click="$emit('closeRequestFormEvent')">戻る</button>
                     </div>
                 </div>
             </form>

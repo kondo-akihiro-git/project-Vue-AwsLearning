@@ -67,3 +67,17 @@ export async function submitAnnouncement(title, content) {
         console.error('お知らせの登録に失敗しました', error);
     }
 }
+
+
+export async function submitModification(wordId, word, explanation) {
+    try {
+        await axios.post('http://localhost:3000/notion-modification', {
+            wordId,
+            word,
+            explanation,
+        });
+        alert('修正ワードのリクエストが送信されました', wordId, word, explanation);
+    } catch (error) {
+        console.error('修正ワードのリクエストに失敗しました', error, wordId, word, explanation);
+    }
+}

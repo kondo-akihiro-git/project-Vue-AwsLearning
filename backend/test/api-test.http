@@ -38,3 +38,7 @@ Content-Type: application/json
 ### ユーザーデータ取得
 GET http://localhost:3000/notion-auth
 Accept: application/json
+
+### 修正ワードデータ取得
+GET http://localhost:3000/notion-modification
+Accept: application/json
