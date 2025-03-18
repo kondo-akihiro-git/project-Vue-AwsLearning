@@ -74,7 +74,7 @@ export default {
                 <!-- 送信ボタンと元に戻すボタンを横並びにする -->
                 <div class="field is-grouped is-grouped-right">
                     <div class="control">
-                        <button type="submit" class="button is-primary" :disabled="hasErrors">追加</button>
+                        <button type="submit" class="button is-primary" :disabled="hasErrors">送信</button>
                     </div>
                     <div class="control">
                         <button type="button" class="button is-light" @click="$emit('closeRequestFormEvent')">戻る</button>
