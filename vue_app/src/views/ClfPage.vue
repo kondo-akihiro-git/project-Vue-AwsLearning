@@ -94,7 +94,7 @@ export default {
             </div>
 
             <!-- ワード詳細を表示 -->
-            <div class="column is-two-thirds" v-if="selectedWordData">
+            <div class="column is-two-thirds ml-3" v-if="selectedWordData">
                 <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
                 <RelatedWords :relatedWords="relatedWords" @showWordDetailEvent="showWordDetail" />
             </div>
