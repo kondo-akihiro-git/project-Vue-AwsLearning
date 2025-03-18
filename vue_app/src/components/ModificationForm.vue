@@ -2,6 +2,9 @@
 import { submitModification } from '@/utils/service'; // サービス関数
 
 export default {
+    props: {
+        listViewData: Object 
+    },
     data() {
         return {
             wordList: [], // 修正対象のワードリスト
@@ -14,11 +17,17 @@ export default {
         this.loadWordList();
     },
     methods: {
-        async loadWordList() {
-            // modification_mstのデータを取得
-            this.wordList = [{word:"test", id:"1"}];
-        },
-
+        loadWordList() {
+    // ✅ listViewData からワードデータを抽出
+    const allWords = Object.values(this.listViewData).flat();
+    this.wordList = allWords
+        .map(word => ({
+            word: word.wordName,
+            id: word.wordId
+        }))
+        // ✅ アルファベット順（大文字・小文字を無視してソート）
+        .sort((a, b) => a.word.toLowerCase().localeCompare(b.word.toLowerCase()));
+},
         async submitModification() {
             if (!this.fixedWord || !this.fixedExplanation) {
                 alert('修正内容を入力してください');

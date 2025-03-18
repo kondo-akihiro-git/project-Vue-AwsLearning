@@ -127,7 +127,7 @@ closeModificationForm() {
         </div>
 
         <div v-if="isModificationFormVisible && !selectedWordData && !isRequestWordVisible">
-            <ModificationForm @closeModificationFormEvent="closeModificationForm" />
+            <ModificationForm :listViewData="listViewData" @closeModificationFormEvent="closeModificationForm" />
         </div>
     </div>
 
