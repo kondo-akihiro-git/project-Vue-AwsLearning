@@ -11,6 +11,7 @@ export default {
             notionWordsTable: process.env.VUE_APP_NOTION_WORD_TABLE_URL,
             notionRequestWordsTable: process.env.VUE_APP_NOTION_REQUEST_TABLE_URL,
             notionAnnouncementsTable: process.env.VUE_APP_NOTION_ANNOUNCEMENT_TABLE_URL,
+            notionModificationsTable: process.env.VUE_APP_NOTION_MODIFICATION_TABLE_URL,
         };
     },
     methods: {
@@ -44,7 +45,7 @@ export default {
             </div>
 
             <div class="content box">
-    <p class="is-size-4 mb-3">DBへのアクセスはこちら</p>
+    <p class="is-size-5 mb-4">DBへのアクセスはこちら</p>
     
     <!-- 各ボタンと説明の間に余白を追加 -->
     <div class="columns is-vcentered">
@@ -73,6 +74,16 @@ export default {
             <p>こちらのテーブルでは管理画面から送信したお知らせを登録しており、過去のお知らせ一覧を確認できます。</p>
         </div>
     </div>
+
+    <div class="columns is-vcentered">
+        <div class="column is-narrow">
+            <a :href="notionModificationsTable" target="_blank" class="button is-medium">修正依頼テーブル</a>
+        </div>
+        <div class="column">
+            <p>こちらのテーブルでは既存のワードや説明についての修正依頼の一覧を確認できます。</p>
+        </div>
+    </div>
+    
 </div>
 
         </div>

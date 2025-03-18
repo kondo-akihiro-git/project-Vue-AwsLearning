@@ -1,6 +1,18 @@
 <template>
     <div class="container">
-        <section class="section">
+        <div class="header-container is-flex is-align-items-center is-justify-content-space-between p-2">
+                <div class="logo-container">
+                    <router-link to="/" class="has-text-black">
+                        <img 
+                            ref="logo" 
+                            src="@/assets/logo.png" 
+                            alt="AWS Logo" 
+                            class="logo"
+                        />
+                    </router-link>
+                </div>
+            </div>
+        <div class="box">
             <h2 class="title is-3">ログイン</h2>
 
             <form @submit.prevent="login">
@@ -18,13 +30,13 @@
                     </div>
                 </div>
 
-                <div class="field is-grouped is-grouped-centered">
+                <div class="field is-grouped is-grouped-right">
                     <div class="control">
                         <button class="button is-primary is-medium" type="submit">ログイン</button>
                     </div>
                 </div>
             </form>
-        </section>
+        </div>
     </div>
 </template>
 
@@ -51,3 +63,18 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+
+.logo-container {
+    display: flex;
+    align-items: center; /* ロゴを上下中央揃え */
+}
+
+/* ロゴ画像の中央配置 */
+.logo {
+    display: block;
+    height: auto; /* 縦横比を維持 */
+    max-height: 10vh; /* 画面の10%の高さ */
+}
+</style>

@@ -59,4 +59,10 @@ export default {
 .page-container {
     height: 100vh; /* 画面の高さいっぱいに */
 }
+.header-container {
+    user-select: none; /* 画面の高さいっぱいに */
+    -webkit-user-select: none; /* Safari対応 */
+    -moz-user-select: none; /* Firefox対応 */
+    -ms-user-select: none; /* IE/Edge対応 */
+}
 </style>
