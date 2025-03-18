@@ -1,8 +1,8 @@
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // 新規ワードの追加時バリデーション
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// 新規ワードの追加時バリデーション
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const defaultWord = 'サンプルワード';
 const defaultExplanation = 'サンプルの説明文です。';
@@ -29,12 +29,12 @@ export function validateUserId(userId) {
 
 export function validateDefaultValues(word, explanation, userId) {
     const defaultList = [];
-    if (word === defaultWord) defaultList.push("ワード名");
-    if (explanation === defaultExplanation) defaultList.push("説明");
-    if (userId === defaultUserId) defaultList.push("ユーザーID");
+    if (word === defaultWord) defaultList.push("ワード名欄");
+    if (explanation === defaultExplanation) defaultList.push("説明欄");
+    if (userId === defaultUserId) defaultList.push("ユーザーID欄");
 
     return defaultList.length > 0
-        ? `(${defaultList.join('、')}) に具体例が記入されています。`
+        ? `${defaultList.join('、')} の具体例を変更後、追加ボタンを押してください。`
         : "";
 }
 
@@ -42,4 +42,46 @@ export const defaultValues = {
     word: defaultWord,
     explanation: defaultExplanation,
     userId: defaultUserId
+};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// 既存ワード修正時のバリデーション
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const defaultModifiedWord = '修正サンプルワード';
+const defaultModifiedExplanation = '修正サンプルの説明文です。';
+
+export function validateModifiedWord(word) {
+    if (!word) return "修正後のワード名は必須です。";
+    if (word.length > 100) return "修正後のワード名は100文字以内で入力してください。";
+    return "";
+}
+
+export function validateModifiedExplanation(explanation) {
+    if (!explanation) return "修正後の説明は必須です。";
+    if (explanation.length < 10) return "修正後の説明は10文字以上で入力してください。";
+    if (explanation.length > 300) return "修正後の説明は300文字以内で入力してください。";
+    return "";
+}
+
+export function validateSelectedWord(selectedWordId) {
+    if (!selectedWordId) return "修正対象のワードを選択してください。";
+    return "";
+}
+
+export function validateModifiedDefaultValues(word, explanation) {
+    const defaultList = [];
+    if (word === defaultModifiedWord) defaultList.push("ワード名欄");
+    if (explanation === defaultModifiedExplanation) defaultList.push("説明欄");
+
+    return defaultList.length > 0
+        ? `${defaultList.join('、')} の具体例を変更後、送信ボタンを押してください。`
+        : "";
+}
+
+export const defaultModifiedValues = {
+    word: defaultModifiedWord,
+    explanation: defaultModifiedExplanation
 };

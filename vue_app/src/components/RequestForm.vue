@@ -45,10 +45,10 @@ export default {
 
 <template>
     <div class="container">
-        <section class="section">
-            <h2 class="title">新しいワードの追加申請</h2>
-            <form @submit.prevent="submit" class="box">
-                <div v-if="defaultError" class="notification is-danger">{{ defaultError }}</div>
+        <div class="box">
+            <form @submit.prevent="submit">
+                <h2 class="title is-4">新しいワードの追加申請</h2>
+                <div v-if="defaultError" class="notification is-light">{{ defaultError }}</div>
                 <div class="field">
                     <label class="label">ワード名</label>
                     <div class="control">
@@ -59,7 +59,7 @@ export default {
                 <div class="field">
                     <label class="label">説明</label>
                     <div class="control">
-                        <textarea v-model="explanation" class="textarea" required></textarea>
+                        <textarea v-model="explanation" class="textarea" rows="3" required></textarea>
                     </div>
                     <p v-if="explanationError" class="help is-danger">{{ explanationError }}</p>
                 </div>
@@ -70,11 +70,17 @@ export default {
                     </div>
                     <p v-if="userIdError" class="help is-danger">{{ userIdError }}</p>
                 </div>
-                <div class="control">
-                    <button type="submit" class="button is-primary" :disabled="hasErrors">追加</button>
+
+                <!-- 送信ボタンと元に戻すボタンを横並びにする -->
+                <div class="field is-grouped is-grouped-right">
+                    <div class="control">
+                        <button type="submit" class="button is-primary" :disabled="hasErrors">送信</button>
+                    </div>
+                    <div class="control">
+                        <button type="button" class="button is-light" @click="$emit('closeRequestFormEvent')">戻る</button>
+                    </div>
                 </div>
             </form>
-            <button class="button is-light" @click="$emit('closeRequestFormEvent')">元に戻す</button>
-        </section>
+        </div>
     </div>
 </template>

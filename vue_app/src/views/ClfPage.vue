@@ -4,13 +4,15 @@ import WordDetail from '@/components/WordDetail.vue';
 import CategoryList from '@/components/CategoryList.vue';
 import RequestForm from '@/components/RequestForm.vue';
 import RelatedWords from '@/components/RelatedWords.vue';
+import ModificationForm from '@/components/ModificationForm.vue';
 
 export default {
     components: {
         WordDetail,
         CategoryList,
         RequestForm,
-        RelatedWords
+        RelatedWords,
+        ModificationForm
     },
     data() {
         return {
@@ -18,6 +20,7 @@ export default {
             selectedWordData: null,
             relatedWords: [],
             isRequestWordVisible: false,
+            isModificationFormVisible: false, 
             isLoading: true
         };
     },
@@ -37,6 +40,7 @@ export default {
         showWordDetail(selectedWordData) {
             this.selectedWordData = selectedWordData;
             this.isRequestWordVisible = false;
+            this.isModificationFormVisible = false;
             this.updateRelatedWords(selectedWordData);
         },
 
@@ -55,12 +59,24 @@ export default {
 
         showRequestForm() {
             this.isRequestWordVisible = true;
+            this.isModificationFormVisible = false;
             this.selectedWordData = null;
         },
 
         closeRequestForm() {
             this.isRequestWordVisible = false;
-        }
+        },
+
+// 修正依頼フォームを表示
+showModificationForm() {
+    this.isModificationFormVisible = true;
+    this.isRequestWordVisible = false;
+    this.selectedWordData = null;
+},
+
+closeModificationForm() {
+    this.isModificationFormVisible = false;
+}
     }
 };
 </script>
@@ -72,15 +88,20 @@ export default {
 </div>
 
     <div v-else class="container">
-        <div class="is-flex is-align-items-center is-justify-content-space-between m-5">
-            <div class="title is-size-2">
+        <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
+            <div class="logo-container">
                 <router-link to="/" class="has-text-black">
-                    クラウドプラクティショナー
+                    <img src="@/assets/logo.png" alt="AWS Logo" class="logo" />
                 </router-link>
             </div>
-            <button v-if="!isRequestWordVisible" class="button is-primary" @click="showRequestForm">
+            <div>
+                <button v-if="!isModificationFormVisible && !isRequestWordVisible " class="button" @click="showModificationForm">
+                既存ワードの修正依頼
+            </button>
+            <button v-if="!isRequestWordVisible && !isModificationFormVisible " class="button ml-2" @click="showRequestForm">
                 新規ワードの追加申請
             </button>
+        </div>
         </div>
 
         <div class="columns">
@@ -89,20 +110,24 @@ export default {
                 <div class="category-list-container">
 
                     <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
-                        v-if="!isRequestWordVisible" />
+                        v-if="!isRequestWordVisible && !isModificationFormVisible" />
                 </div>
             </div>
 
             <!-- ワード詳細を表示 -->
-            <div class="column is-two-thirds" v-if="selectedWordData">
+            <div class="column is-two-thirds ml-3" v-if="selectedWordData && !isRequestWordVisible && !isModificationFormVisible">
                 <WordDetail :selectedWordData="selectedWordData" @closeWordDetailEvent="closeWordDetail" />
                 <RelatedWords :relatedWords="relatedWords" @showWordDetailEvent="showWordDetail" />
             </div>
         </div>
 
         <!-- 新規ワードの追加申請フォームを表示 -->
-        <div v-if="isRequestWordVisible">
+        <div  v-if="isRequestWordVisible && !selectedWordData && !isModificationFormVisible">
             <RequestForm @closeRequestFormEvent="closeRequestForm" />
+        </div>
+
+        <div v-if="isModificationFormVisible && !selectedWordData && !isRequestWordVisible">
+            <ModificationForm :listViewData="listViewData" @closeModificationFormEvent="closeModificationForm" />
         </div>
     </div>
 
@@ -142,5 +167,22 @@ export default {
     100% { content: '.'; }
 }
 
+/* ヘッダーの高さ */
+.header-container {
+    min-height: 12vh; /* 画面の15%の高さ */
+}
+
+/* ロゴとボタンの高さを揃える */
+.logo-container {
+    display: flex;
+    align-items: center; /* ロゴを上下中央揃え */
+}
+
+/* ロゴ画像の中央配置 */
+.logo {
+    display: block;
+    height: auto; /* 縦横比を維持 */
+    max-height: 10vh; /* 画面の10%の高さ */
+}
 
 </style>
