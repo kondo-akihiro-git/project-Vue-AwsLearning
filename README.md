@@ -45,6 +45,11 @@ AWS CLF(AWS CloudPractitionar)の資格取得にあたって必要なキーワ�
 
 ## 主な技術要件
 
+- Vue 3 : フロントでのJavaScriptフレームワーク
+- Vue Router : ルーティング制御
+- Bulma : CSSフレームワーク（デザイン統一）
+- Axios : API通信
+- Node.js : JavaScriptの実行環境
 - express : サーバーを作成するためのライブラリ  
 - cors : CORSの制御を行うライブラリ  
 - REST Client : APIテスト用拡張機能
@@ -53,4 +58,3 @@ AWS CLF(AWS CloudPractitionar)の資格取得にあたって必要なキーワ�
 
 - デプロイ手順確認(8)  
 - データの調整(8)
-- お知らせ画面における既読機能
