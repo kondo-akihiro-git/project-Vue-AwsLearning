@@ -3,6 +3,7 @@ node_modules
 data.csv
 *.env
 /dist
+api-test-render.http
 
 
 # local env files

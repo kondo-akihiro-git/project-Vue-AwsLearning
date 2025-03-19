@@ -21,15 +21,21 @@ export default {
             relatedWords: [],
             isRequestWordVisible: false,
             isModificationFormVisible: false,
-            isLoading: true
+            isLoading: true,
+            isMobile: false
         };
     },
 
     // マウント時にデータ取得
     mounted() {
         this.loadData();
+        this.checkMobile();
+        window.addEventListener('resize', this.checkMobile);
     },
     methods: {
+        checkMobile() {
+            this.isMobile = window.innerWidth <= 768;
+        },
         async loadData() {
             this.isLoading = true;
             this.listViewData = await fetchData();
@@ -77,6 +83,9 @@ export default {
         closeModificationForm() {
             this.isModificationFormVisible = false;
         }
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.checkMobile);
     }
 };
 </script>
@@ -110,13 +119,17 @@ export default {
 
         <div class="columns">
             <!-- カテゴリとワード一覧を表示-->
-            <div :class="{ 'column is-one-third': selectedWordData, 'column': !selectedWordData }">
+            <div :class="{
+                'column is-one-third': selectedWordData && !isMobile,
+                'column is-hidden-mobile': selectedWordData && isMobile,
+                'column': !selectedWordData
+            }">
                 <div class="category-list-container">
-
                     <CategoryList :listViewData="listViewData" @showWordDetailEvent="showWordDetail"
                         v-if="!isRequestWordVisible && !isModificationFormVisible" />
                 </div>
             </div>
+
 
             <!-- ワード詳細を表示 -->
             <div class="column is-two-thirds ml-3 mr-3"
