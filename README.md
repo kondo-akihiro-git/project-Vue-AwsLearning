@@ -54,8 +54,11 @@ AWS CLF(AWS CloudPractitionar)の資格取得にあたって必要なキーワ�
 - express : サーバーを作成するためのライブラリ  
 - cors : CORSの制御を行うライブラリ  
 - REST Client : APIテスト用拡張機能
+- Vercel : フロントデプロイ
+- Render : サーバーデプロイ
 
 ## 残りのタスク
 
 - デプロイ手順確認(8)  
 - データの調整(8)
+- customeDomain作成と適用（Vercelにも）

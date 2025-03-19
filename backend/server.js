@@ -26,5 +26,5 @@ app.use('/notion-auth', userRoutes);
 app.use('/notion-modification', modificationRoutes);
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on PORT:${PORT}`);
 });

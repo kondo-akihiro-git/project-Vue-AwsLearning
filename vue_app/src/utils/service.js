@@ -1,15 +1,19 @@
 import axios from 'axios';
 import { formatData } from './format';
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // Notionデータ取得
-    //
-    ////////////////////////////////////////////////////////////////////////////////////////////////////   
+
+// ベースURLを環境変数から取得
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+ // Notionデータ取得
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////   
 export async function fetchData() {
     try {
-        const wordResponse = await axios.get('http://localhost:3000/notion-word');
-        const categoryResponse = await axios.get('http://localhost:3000/notion-category');
-        const typeResponse = await axios.get('http://localhost:3000/notion-type');
+        const wordResponse = await axios.get(`${SERVER_URL}/notion-word`);
+        const categoryResponse = await axios.get(`${SERVER_URL}/notion-category`);
+        const typeResponse = await axios.get(`${SERVER_URL}/notion-type`);
 
         return formatData(wordResponse.data, categoryResponse.data, typeResponse.data);
     } catch (error) {
@@ -18,14 +22,14 @@ export async function fetchData() {
     }
 }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // リクエストデータ更新
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+ // リクエストデータ更新
+//
+////////////////////////////////////////////////////////////////////////////////////////////////// 
 export async function submitRequest(word, explanation, userId) {
     try {
-        await axios.post('http://localhost:3000/notion-request-word', {
+        await axios.post(`${SERVER_URL}/notion-request-word`, {
             word,
             explanation,
             userId
@@ -36,14 +40,14 @@ export async function submitRequest(word, explanation, userId) {
     }
 }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // 周知データ取得
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+ // 周知データ取得
+//
+////////////////////////////////////////////////////////////////////////////////////////////////// 
 export async function fetchAnnouncements() {
     try {
-        const response = await axios.get('http://localhost:3000/notion-announcement');
+        const response = await axios.get(`${SERVER_URL}/notion-announcement`);
         return response.data;
     } catch (error) {
         console.error("お知らせデータの取得に失敗しました", error);
@@ -51,14 +55,14 @@ export async function fetchAnnouncements() {
     }
 }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-    //
-    // 周知データ更新
-    //
-    //////////////////////////////////////////////////////////////////////////////////////////////////// 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+ // 周知データ更新
+//
+////////////////////////////////////////////////////////////////////////////////////////////////// 
 export async function submitAnnouncement(title, content) {
     try {
-        await axios.post('http://localhost:3000/notion-announcement', {
+        await axios.post(`${SERVER_URL}/notion-announcement`, {
             title,
             content
         });
@@ -68,10 +72,9 @@ export async function submitAnnouncement(title, content) {
     }
 }
 
-
 export async function submitModification(wordId, word, explanation) {
     try {
-        await axios.post('http://localhost:3000/notion-modification', {
+        await axios.post(`${SERVER_URL}/notion-modification`, {
             wordId,
             word,
             explanation,
