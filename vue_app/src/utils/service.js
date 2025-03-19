@@ -2,8 +2,7 @@ import axios from 'axios';
 import { formatData } from './format';
 
 // ベースURLを環境変数から取得
-const SERVER_URL = process.env.VUE_APP_SERVER_URL;
-
+const SERVER_URL = process.env.VUE_APP_SERVER_URL || 'http://localhost:3000';
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
  // Notionデータ取得
