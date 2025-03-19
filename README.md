@@ -59,6 +59,5 @@ AWS CLF(AWS CloudPractitionar)の資格取得にあたって必要なキーワ�
 
 ## 残りのタスク
 
-- デプロイ手順確認(8)  
 - データの調整(8)
 - customeDomain作成と適用（Vercelにも）
