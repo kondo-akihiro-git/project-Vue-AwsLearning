@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+const SERVER_URL = process.env.VUE_APP_SERVER_URL;
 export async function loginUser(username, password) {
     try {
         // Notion APIからデータを取得
-        const response = await axios.get('http://localhost:3000/notion-auth');
+        const response = await axios.get(`${SERVER_URL}/notion-auth`);
         console.log(response)
 
         // レスポンスのデータが配列で返ってくることを確認
