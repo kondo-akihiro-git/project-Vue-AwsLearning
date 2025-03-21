@@ -31,7 +31,7 @@ export default {
                 case "attitude":
                     return "AWS特有の考え方"; 
                 case "aws term":
-                    return "AWS用語";
+                    return "AWS特有の用語・覚えておくこと";
                 default:
                     return null;
             }
