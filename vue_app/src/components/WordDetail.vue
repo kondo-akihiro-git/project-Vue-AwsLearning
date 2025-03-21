@@ -67,37 +67,37 @@ export default {
 
 <style scoped>
 .aws-service {
-    background-color: #ff9900 !important;
+    background-color:rgba(255, 153, 0, 0.2) !important;
     /* AWSオレンジ */
     color: white;
 }
 
 .tech-method {
-    background-color: #0073bb !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
     /* 青系 (技術連携をイメージ) */
     color: white;
 }
 
 .tech-term {
-    background-color: #333333 !important;
+    background-color: rgba(242, 242, 242, 0.347) !important;
     /* ダークグレー (技術的な用語をイメージ) */
     color: white;
 }
 
 .aws-attitude {
-    background-color: #2d7600 !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
     /* 深緑 (AWSの考え方や姿勢を意識) */
     color: white;
 }
 
 .aws-term {
-    background-color: #ffe600 !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
     /*  (AWS用語) */
     color: white;
 }
 
 .default-type {
-    background-color: #e0e0e0;
+    background-color: #252424;
     /* デフォルトのグレー */
     color: black;
 }

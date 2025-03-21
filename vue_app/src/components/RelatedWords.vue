@@ -51,15 +51,15 @@ export default {
 }
 
 .border-tech-method {
-    background-color: rgba(0, 115, 187, 0.2) !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
 }
 
 .border-tech-term {
-    background-color: rgba(51, 51, 51, 0.2) !important;
+    background-color: rgba(231, 231, 231, 0.65) !important;
 }
 
 .border-aws-attitude {
-    background-color: rgba(45, 118, 0, 0.2) !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
 }
 
 .border-aws-term {
