@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-data.csv
+*data.csv
 *.env
 /dist
 api-test-render.http

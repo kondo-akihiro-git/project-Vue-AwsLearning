@@ -113,15 +113,15 @@ export default {
 }
 
 .border-tech-method {
-    background-color: rgba(0, 115, 187, 0.2) !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
 }
 
 .border-tech-term {
-    background-color: rgba(51, 51, 51, 0.2) !important;
+    background-color: rgba(242, 242, 242, 0.347) !important;
 }
 
 .border-aws-attitude {
-    background-color: rgba(45, 118, 0, 0.2) !important;
+    background-color: rgba(255, 230, 0, 0.2) !important;
 }
 
 .border-aws-term {
@@ -129,7 +129,7 @@ export default {
 }
 
 .border-default-type {
-    background-color: rgba(224, 224, 224, 0.2) !important;
+    background-color: rgba(224, 224, 224, 0.905) !important;
 }
 
 
