@@ -6,12 +6,28 @@ AWS CLF(AWS CloudPractitionar)の資格取得にあたって必要なキーワ�
 
 ## 主な画面
 
-- `ホーム画面` : 学習画面への遷移とお知らせ画面への遷移ができる画面です。  
-- `カテゴリー＆ワード一覧画面` : 学習ワードをカテゴリ別で一覧を確認できる画面です。  
-- `ワード詳細画面` : 資格取得に向けた学習ワードの詳細と関連度の高いワードを確認できる画面です。  
-- `新規ワードの追加申請画面` : 新規でワードを追加申請できる画面です。  
+- `ホーム画面` : 学習画面への遷移とお知らせ画面への遷移ができる画面です。
+
+<kbd><img style="border: solid;" width="1334" alt="top-aws-git" src="https://github.com/user-attachments/assets/4fcfd300-a264-4c55-8c7e-5ae91c87985f" /></kbd>
+</br></br>
+
+- `カテゴリー＆ワード一覧画面` : 学習ワードをカテゴリ別で一覧を確認できる画面です。
+
+<kbd><img width="1394" alt="home-aws-git" src="https://github.com/user-attachments/assets/d5121d62-237a-4ad7-9fbc-41616e9216ec" /></kbd>
+</br></br>
+
+- `ワード詳細画面` : 資格取得に向けた学習ワードの詳細と関連度の高いワードを確認できる画面です。
 - `既存ワードの修正依頼画面` : 既存のワードについて改善依頼、修正依頼を送信できる画面です。  
-- `お知らせ画面` : ユーザーが管理者からのお知らせを受けることができる画面です。  
+- `新規ワードの追加申請画面` : 新規でワードを追加申請できる画面です。  
+
+<kbd><img width="1382" alt="req-aws-git" src="https://github.com/user-attachments/assets/6ac92a8b-ca76-41af-8fcb-5a8a180f70ee" /></kbd>
+</br></br>
+
+- `お知らせ画面` : ユーザーが管理者からのお知らせを受けることができる画面です。
+
+<kbd><img width="1387" alt="news-aws-git" src="https://github.com/user-attachments/assets/acea064d-e9c8-485f-8699-442b8632ccad" /></kbd>
+</br></br>
+
 - `管理者画面` : 主にユーザーへのお知らせの送信とDBデータの確認ができる画面です。  
 
 ## フォルダ構成
