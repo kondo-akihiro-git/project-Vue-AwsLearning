@@ -5,6 +5,7 @@ import CategoryList from '@/components/CategoryList.vue';
 import RequestForm from '@/components/RequestForm.vue';
 import RelatedWords from '@/components/RelatedWords.vue';
 import ModificationForm from '@/components/ModificationForm.vue';
+import LogoHeader from '@/components/LogoHeader.vue';
 
 export default {
     components: {
@@ -12,7 +13,8 @@ export default {
         CategoryList,
         RequestForm,
         RelatedWords,
-        ModificationForm
+        ModificationForm,
+        LogoHeader
     },
     data() {
         return {
@@ -98,11 +100,7 @@ export default {
 
     <div v-else class="container">
         <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
-            <div class="logo-container">
-                <router-link to="/" class="has-text-black">
-                    <img src="@/assets/logo.png" alt="AWS Logo" class="logo" />
-                </router-link>
-            </div>
+            <LogoHeader />
             <div class="buttons-container is-flex is-justify-content-flex-end is-flex-wrap-wrap">
                 <button v-if="!isModificationFormVisible && !isRequestWordVisible" class="button mb-2 mx-1"
                     @click="showModificationForm">
@@ -211,19 +209,5 @@ export default {
     /* 画面の15%の高さ */
 }
 
-/* ロゴとボタンの高さを揃える */
-.logo-container {
-    display: flex;
-    align-items: center;
-    /* ロゴを上下中央揃え */
-}
 
-/* ロゴ画像の中央配置 */
-.logo {
-    display: block;
-    height: auto;
-    /* 縦横比を維持 */
-    max-height: 10vh;
-    /* 画面の10%の高さ */
-}
 </style>

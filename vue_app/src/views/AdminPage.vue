@@ -1,8 +1,11 @@
 <script>
 import AnnouncementForm from '@/components/AnnouncementForm.vue';
+import LogoHeader from '@/components/LogoHeader.vue';
+
 
 export default {
     components: {
+        LogoHeader,
         AnnouncementForm,
     },
     data() {
@@ -25,11 +28,7 @@ export default {
 <template>
     <div class="container">
         <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
-            <div class="logo-container">
-                <router-link to="/" class="has-text-black">
-                    <img src="@/assets/logo.png" alt="AWS Logo" class="logo" />
-                </router-link>
-            </div>
+            <LogoHeader />
         </div>
 
         <!-- 管理画面表示部分 -->
@@ -101,15 +100,4 @@ export default {
     width: 100%;
 }
 
-.logo-container {
-    display: flex;
-    align-items: center; /* ロゴを上下中央揃え */
-}
-
-/* ロゴ画像の中央配置 */
-.logo {
-    display: block;
-    height: auto; /* 縦横比を維持 */
-    max-height: 10vh; /* 画面の10%の高さ */
-}
 </style>
