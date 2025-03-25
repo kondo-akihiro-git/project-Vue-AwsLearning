@@ -1,10 +1,12 @@
 <script>
 import { fetchAnnouncements } from '@/utils/service';
 import LogoHeader from '@/components/LogoHeader.vue';
+import DotLoading from '@/components/DotLoading.vue';
 
 export default {
     components: {
         LogoHeader,
+        DotLoading
     },
     data() {
         return {
@@ -58,70 +60,67 @@ export default {
 </script>
 
 <template>
-    <div class="container">
+    <!-- ローディング表示 -->
+    <DotLoading v-if="isLoading" />
+    
+
+    <div v-else class="container">
         <div class="header-container is-flex is-align-items-center is-justify-content-space-between m-2">
             <LogoHeader />
         </div>
         <div class="box">
             <h1 class="title">お知らせ</h1>
 
-            <!-- ローディング表示 -->
-            <div v-if="isLoading" class="loading-overlay">
-                <p class="loading-icon">データ読み込み中</p>
-            </div>
+            <div v-if="announcements.length === 0">現在お知らせはありません。</div>
+            <div v-else class="announcement-list-container">
+                <div v-for="announcement in announcements" :key="announcement.announceId"
+                    class="box has-background-light" @click="openModal(announcement)" style="cursor: pointer;">
 
-            <!-- お知らせリスト -->
-            <div v-else>
-                <div v-if="announcements.length === 0">現在お知らせはありません。</div>
-                <div v-else class="announcement-list-container">
-                    <div v-for="announcement in announcements" :key="announcement.announceId"
-                        class="box has-background-light" @click="openModal(announcement)" style="cursor: pointer;">
+                    <!-- タイトルとアイコンを同じ行に配置 -->
+                    <div class="is-flex is-justify-content-space-between align-items-center">
+                        <h2 class="subtitle">{{ announcement.titleName }}</h2>
 
-                        <!-- タイトルとアイコンを同じ行に配置 -->
-                        <div class="is-flex is-justify-content-space-between align-items-center">
-                            <h2 class="subtitle">{{ announcement.titleName }}</h2>
-
-                            <!-- 既読・未読アイコンの表示 -->
-                            <span v-if="announcement.isRead" class="icon has-text-info ml-auto">
-                                <i class="fas fa-check-circle"></i> <!-- 既読アイコン -->
-                            </span>
-                            <span v-else class="icon has-text-warning ml-auto">
-                                <i class="fas fa-exclamation-circle"></i> <!-- 未読アイコン -->
-                            </span>
-                        </div>
-
-                        <p>{{ announcement.content }}</p>
-                        <p class="has-text-grey">{{ formatDate(announcement.created_at) }}</p>
+                        <!-- 既読・未読アイコンの表示 -->
+                        <span v-if="announcement.isRead" class="icon has-text-info ml-auto">
+                            <i class="fas fa-check-circle"></i> <!-- 既読アイコン -->
+                        </span>
+                        <span v-else class="icon has-text-warning ml-auto">
+                            <i class="fas fa-exclamation-circle"></i> <!-- 未読アイコン -->
+                        </span>
                     </div>
-                </div>
-            </div>
 
-            <div class="m-2 has-text-right">
-                <router-link to="/" class="button">ホーム画面に戻る</router-link>
-            </div>
-
-            <!-- モーダル -->
-            <div class="modal" :class="{ 'is-active': isModalActive }">
-                <div class="modal-background" @click="closeModal"></div>
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">
-                            {{ selectedAnnouncement ? selectedAnnouncement.titleName : '' }}
-                        </p>
-                        <button class="delete" aria-label="close" @click="closeModal"></button>
-                    </header>
-                    <section class="modal-card-body">
-                        <p v-if="selectedAnnouncement">
-                            {{ selectedAnnouncement.content }}
-                        </p>
-                    </section>
-                    <footer class="modal-card-foot is-justify-content-flex-end">
-                        <button class="button is-light" @click="closeModal">閉じる</button>
-                    </footer>
+                    <p>{{ announcement.content }}</p>
+                    <p class="has-text-grey">{{ formatDate(announcement.created_at) }}</p>
                 </div>
             </div>
         </div>
+
+        <div class="m-2 has-text-right">
+            <router-link to="/" class="button">ホーム画面に戻る</router-link>
+        </div>
+
+        <!-- モーダル -->
+        <div class="modal" :class="{ 'is-active': isModalActive }">
+            <div class="modal-background" @click="closeModal"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">
+                        {{ selectedAnnouncement ? selectedAnnouncement.titleName : '' }}
+                    </p>
+                    <button class="delete" aria-label="close" @click="closeModal"></button>
+                </header>
+                <section class="modal-card-body">
+                    <p v-if="selectedAnnouncement">
+                        {{ selectedAnnouncement.content }}
+                    </p>
+                </section>
+                <footer class="modal-card-foot is-justify-content-flex-end">
+                    <button class="button is-light" @click="closeModal">閉じる</button>
+                </footer>
+            </div>
+        </div>
     </div>
+
 </template>
 
 
@@ -132,51 +131,6 @@ export default {
     overflow-y: auto;
     /* スクロール可能にする */
 }
-
-/* ローディング表示の中央配置 */
-.loading-overlay {
-    position: fixed;
-    /* 画面に固定 */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-    /* 水平方向に中央 */
-    align-items: center;
-    /* 垂直方向に中央 */
-    background-color: rgba(255, 255, 255, 0.7);
-    /* 半透明の背景 */
-    z-index: 1000;
-    /* 他のコンテンツより前面に表示 */
-}
-
-.loading-icon::after {
-    content: '.';
-    animation: dot-blinking 1.5s steps(3, end) infinite;
-    font-size: 2rem;
-    /* 大きな文字に */
-}
-
-@keyframes dot-blinking {
-    0% {
-        content: '.';
-    }
-
-    33% {
-        content: '..';
-    }
-
-    66% {
-        content: '...';
-    }
-
-    100% {
-        content: '.';
-    }
-}
-
 
 /* モーダルの最大幅設定 */
 .modal-card {
