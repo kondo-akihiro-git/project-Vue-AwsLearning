@@ -28,9 +28,11 @@ export default {
         this.announcements = allAnnouncements.filter(announcement => {
             return new Date(announcement.created_at) >= twoMonthsAgo;
         });
+        // ローカルストレージから既読情報を取得
+        const readStatuses = JSON.parse(localStorage.getItem('announcement')) || {};
+
         this.announcements.forEach(announcement => {
-            const readStatus = localStorage.getItem(`announcement_${announcement.announceId}`);
-            announcement.isRead = readStatus === 'true'; // 'true'の場合は既読
+            announcement.isRead = readStatuses[announcement.announceId] === true;
         });
 
         this.isLoading = false; // データ取得後にローディングをOFF
@@ -46,7 +48,11 @@ export default {
             // 既読に変更してlocalStorageに保存
             if (!announcement.isRead) {
                 announcement.isRead = true;
-                localStorage.setItem(`announcement_${announcement.announceId}`, 'true');
+
+                // 既読情報をローカルストレージに保存
+                const readStatuses = JSON.parse(localStorage.getItem('announcement')) || {};
+                readStatuses[announcement.announceId] = true;
+                localStorage.setItem('announcement', JSON.stringify(readStatuses));
             }
             this.selectedAnnouncement = announcement;
             this.isModalActive = true;
