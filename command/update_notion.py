@@ -21,18 +21,33 @@ HEADERS = {
 
 # データベースからデータ取得
 def get_notion_data(database_id):
-    url = f"https://api.notion.com/v1/databases/{database_id}/query"
-    try:
-        response = requests.post(url, headers=HEADERS)
-        if response.status_code != 200:
-            print(f"❌ データの取得に失敗しました: {response.status_code}, エラー: {response.text}")
-            return []
-        data = response.json()["results"]
-        print(f"✅ 取得データ件数: {len(data)}")
-        return data
-    except Exception as e:
-        print(f"❗️ データ取得エラー: {e}")
-        return []
+    all_data = []
+    start_cursor = None
+    
+    while True:
+        url = f"https://api.notion.com/v1/databases/{database_id}/query"
+        payload = {}
+        if start_cursor:
+            payload["start_cursor"] = start_cursor
+            
+        try:
+            response = requests.post(url, headers=HEADERS, json=payload)
+            if response.status_code != 200:
+                print(f"❌ データの取得に失敗しました: {response.status_code}, エラー: {response.text}")
+                break
+            data = response.json()
+            all_data.extend(data["results"])
+            print(f"✅ 取得データ件数: {len(data['results'])}, 総件数: {len(all_data)}")
+            
+            # 次ページがある場合はstart_cursorが返される
+            start_cursor = data.get("next_cursor")
+            if not start_cursor:
+                break
+        except Exception as e:
+            print(f"❗️ データ取得エラー: {e}")
+            break
+    
+    return all_data
 
 
 # IDマッピング作成
@@ -112,7 +127,7 @@ def main():
         type_mapping = create_id_mapping(type_data, "type")
 
         # Word MSTのデータ更新
-        for word in word_data:
+        for word in reversed(word_data):
             record_id = word["id"]
             properties = word["properties"]
 
