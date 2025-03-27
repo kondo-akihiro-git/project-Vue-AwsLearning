@@ -7,6 +7,9 @@ const config = {
     notion,
     databaseIds: {
         word: process.env.NOTION_WORD_MST_DATABASE_ID,
+        word_mst_1: process.env.NOTION_WORD_MST_1_DATABASE_ID,
+        word_mst_2: process.env.NOTION_WORD_MST_2_DATABASE_ID,
+        word_mst_3: process.env.NOTION_WORD_MST_3_DATABASE_ID,
         category: process.env.NOTION_CATEGORY_MST_DATABASE_ID,
         request: process.env.NOTION_REQUEST_MST_DATABASE_ID,
         type: process.env.NOTION_TYPE_MST_DATABASE_ID,

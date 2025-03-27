@@ -37,7 +37,30 @@ const createPage = async (databaseId, properties) => {
     }
 };
 
+// データベースのクエリを並列で実行する関数
+const fetchDatabaseItemsParallel = async () => {
+    try {
+        const db1Promise = fetchDatabaseItems(databaseIds.word_mst_1);
+        const db2Promise = fetchDatabaseItems(databaseIds.word_mst_2);
+        const db3Promise = fetchDatabaseItems(databaseIds.word_mst_3);
+
+        const [db1Data, db2Data, db3Data] = await Promise.all([
+            db1Promise,
+            db2Promise,
+            db3Promise
+        ]);
+
+        // データを結合して返す
+        return [...db1Data, ...db2Data, ...db3Data];
+    } catch (error) {
+        console.error(`並列リクエスト失敗: ${error}`);
+        throw new Error('並列リクエストの実行に失敗しました');
+    }
+};
+
+
 module.exports = {
     fetchDatabaseItems,
-    createPage
+    createPage,
+    fetchDatabaseItemsParallel
 };
