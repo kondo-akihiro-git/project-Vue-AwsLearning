@@ -43,7 +43,14 @@ export function formatData(wordsData, categoriesData, typesData) {
             if (!formattedData[categoryName]) {
                 formattedData[categoryName] = [];
             }
-            formattedData[categoryName].unshift({ wordId, wordName, explanation, typeName, relatedIds });
+            // formattedData[categoryName].unshift({ wordId, wordName, explanation, typeName, relatedIds });
+
+            formattedData[categoryName].push({ wordId, wordName, explanation, typeName, relatedIds });
+            
+            // wordId順でソート（wordIdが同じ場合はcategoryId順で比較）
+            formattedData[categoryName].sort((a, b) => {
+                return parseInt(a.wordId) - parseInt(b.wordId) || parseInt(categoryId) - parseInt(wordData.properties.categoryId.rich_text[0]?.text.content);
+            });
         });
     
         // ソートしたカテゴリー順でデータを返す

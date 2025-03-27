@@ -10,7 +10,8 @@ const SERVER_URL = process.env.VUE_APP_SERVER_URL || 'http://localhost:3000';
 ////////////////////////////////////////////////////////////////////////////////////////////////////   
 export async function fetchData() {
     try {
-        const wordResponse = await axios.get(`${SERVER_URL}/notion-word`);
+        const wordResponse = await axios.get(`${SERVER_URL}/notion-word-pararel`);
+        // const wordResponse = await axios.get(`${SERVER_URL}/notion-word`);
         const categoryResponse = await axios.get(`${SERVER_URL}/notion-category`);
         const typeResponse = await axios.get(`${SERVER_URL}/notion-type`);
 

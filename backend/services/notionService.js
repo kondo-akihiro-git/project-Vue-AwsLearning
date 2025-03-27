@@ -50,8 +50,17 @@ const fetchDatabaseItemsParallel = async () => {
             db3Promise
         ]);
 
-        // データを結合して返す
-        return [...db1Data, ...db2Data, ...db3Data];
+        // データを結合してID順にソートして返す
+        const allResults = [...db1Data, ...db2Data, ...db3Data];
+
+        // IDでソート (IDは title[0]?.text.content で取得)
+        allResults.sort((a, b) => {
+            const idA = parseInt(a.properties.id.title[0]?.text.content || "0", 10);
+            const idB = parseInt(b.properties.id.title[0]?.text.content || "0", 10);
+            return idA - idB;
+        });
+
+        return allResults;
     } catch (error) {
         console.error(`並列リクエスト失敗: ${error}`);
         throw new Error('並列リクエストの実行に失敗しました');
