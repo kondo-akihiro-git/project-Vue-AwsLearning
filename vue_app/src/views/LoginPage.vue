@@ -1,16 +1,7 @@
 <template>
     <div class="container">
         <div class="header-container is-flex is-align-items-center is-justify-content-space-between p-2">
-                <div class="logo-container">
-                    <router-link to="/" class="has-text-black">
-                        <img 
-                            ref="logo" 
-                            src="@/assets/logo.png" 
-                            alt="AWS Logo" 
-                            class="logo"
-                        />
-                    </router-link>
-                </div>
+            <LogoHeader />
             </div>
         <div class="box">
             <h2 class="title is-3">ログイン</h2>
@@ -41,9 +32,13 @@
 </template>
 
 <script>
-import { loginUser } from '@/utils/auth'; // ユーザー認証を行う関数
+import { loginUser } from '@/utils/auth';
+import LogoHeader from '@/components/LogoHeader.vue';
 
 export default {
+    components: {
+        LogoHeader,
+    },
     data() {
         return {
             username: '',
@@ -51,11 +46,13 @@ export default {
         };
     },
     methods: {
+        // ログイン認証
+        // ログインに成功した場合、管理画面に遷移
         async login() {
             const isAuthenticated = await loginUser(this.username, this.password);
             console.log(isAuthenticated, this.username, this.password)
             if (isAuthenticated) {
-                this.$router.push('/admin'); // 認証に成功した場合、管理画面に遷移
+                this.$router.push('/admin'); 
             } else {
                 alert('認証に失敗しました');
             }
@@ -63,18 +60,3 @@ export default {
     }
 };
 </script>
-
-<style scoped>
-
-.logo-container {
-    display: flex;
-    align-items: center; /* ロゴを上下中央揃え */
-}
-
-/* ロゴ画像の中央配置 */
-.logo {
-    display: block;
-    height: auto; /* 縦横比を維持 */
-    max-height: 10vh; /* 画面の10%の高さ */
-}
-</style>

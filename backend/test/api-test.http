@@ -2,6 +2,10 @@
 GET http://localhost:3000/notion-word
 Accept: application/json
 
+### ワードデータ取得
+GET http://localhost:3000/notion-word-pararel
+Accept: application/json
+
 ### カテゴリーデータ取得
 GET http://localhost:3000/notion-category
 Accept: application/json
