@@ -1,4 +1,6 @@
 <script>
+import { getTypeClass } from '@/utils/typeClasses';
+
 export default {
     props: {
         relatedWords: Array
@@ -8,20 +10,7 @@ export default {
             this.$emit('showWordDetailEvent', word);
         },
         getTypeClass(typeName) {
-            switch (typeName) {
-                case "service":
-                    return "border-aws-service";
-                case "method":
-                    return "border-tech-method";
-                case "technical term":
-                    return "border-tech-term";
-                case "attitude":
-                    return "border-aws-attitude";
-                case "aws term":
-                    return "border-aws-term";
-                default:
-                    return "border-default-type";
-            }
+            return getTypeClass(typeName);
         }
     }
 };
@@ -44,30 +33,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-/* Typeに応じたボーダー色の設定 */
-.border-aws-service {
-    background-color: rgba(255, 153, 0, 0.2) !important;
-}
 
-.border-tech-method {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-tech-term {
-    background-color: rgba(231, 231, 231, 0.65) !important;
-}
-
-.border-aws-attitude {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-aws-term {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-default-type {
-    background-color: rgba(224, 224, 224, 0.2) !important;
-}
-
-</style>

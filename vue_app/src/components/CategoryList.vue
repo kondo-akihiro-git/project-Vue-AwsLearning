@@ -1,4 +1,6 @@
 <script>
+import { getTypeClass } from '@/utils/typeClasses';
+
 export default {
     props: {
         listViewData: Object,
@@ -61,22 +63,8 @@ export default {
             this.favoriteWords = new Set(savedFavorites);
         },
 
-
-        getTypeClass(typeName) {
-            switch (typeName) {
-                case "service":
-                    return "border-aws-service";
-                case "method":
-                    return "border-tech-method";
-                case "technical term":
-                    return "border-tech-term";
-                case "attitude":
-                    return "border-aws-attitude";
-                case "aws term":
-                    return "border-aws-term";
-                default:
-                    return "border-default-type";
-            }
+        getTypeClassFromJs(typeName) {
+            return getTypeClass(typeName);
         }
     }
 };
@@ -94,7 +82,7 @@ export default {
                     <div 
                         class="box is-size-6 m-1 p-2 has-background-white" 
                         @click="$emit('showWordDetailEvent', wordData)"
-                        :class="getTypeClass(wordData.typeName)"
+                        :class="getTypeClassFromJs(wordData.typeName)"
                         style="flex: 1;"  
                     >
                         {{ wordData.wordName }}
@@ -110,30 +98,3 @@ export default {
         </div>
     </div>
 </template>
-
-<style scoped>
-/* Type-specific border color styles */
-.border-aws-service {
-    background-color: rgba(255, 153, 0, 0.2) !important;
-}
-
-.border-tech-method {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-tech-term {
-    background-color: rgba(242, 242, 242, 0.347) !important;
-}
-
-.border-aws-attitude {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-aws-term {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-}
-
-.border-default-type {
-    background-color: rgba(224, 224, 224, 0.905) !important;
-}
-</style>

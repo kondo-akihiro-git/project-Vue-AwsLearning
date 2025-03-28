@@ -130,7 +130,3 @@ export default {
         </div>
     </div>
 </template>
-
-<style scoped>
-/* 必要なスタイルをここに追加 */
-</style>

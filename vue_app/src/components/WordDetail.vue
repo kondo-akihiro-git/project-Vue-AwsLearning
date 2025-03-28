@@ -1,40 +1,16 @@
 <script>
+import { getTypeClass, getTypeLabel } from '@/utils/typeClasses';
+
 export default {
     props: {
         selectedWordData: Object
     },
     computed: {
         typeClass() {
-            switch (this.selectedWordData.typeName) {
-                case "service":
-                    return "aws-service";
-                case "method":
-                    return "tech-method";
-                case "technical term":
-                    return "tech-term";
-                case "attitude":
-                    return "aws-attitude";
-                case "aws term":
-                    return "aws-term";
-                default:
-                    return "default-type";
-            }
+            return getTypeClass(this.selectedWordData.typeName);
         },
         typeLabel() {
-            switch (this.selectedWordData.typeName) {
-                case "service":
-                    return "AWSサービス";
-                case "method":
-                    return "AWS特有の技術的手法";  
-                case "technical term":
-                    return "一般用語";
-                case "attitude":
-                    return "AWS特有の考え方"; 
-                case "aws term":
-                    return "AWS特有の用語・覚えておくこと";
-                default:
-                    return null;
-            }
+            return getTypeLabel(this.selectedWordData.typeName);
         }
     }
 };
@@ -65,47 +41,3 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.aws-service {
-    background-color:rgba(255, 153, 0, 0.2) !important;
-    /* AWSオレンジ */
-    color: white;
-}
-
-.tech-method {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-    /* 青系 (技術連携をイメージ) */
-    color: white;
-}
-
-.tech-term {
-    background-color: rgba(242, 242, 242, 0.347) !important;
-    /* ダークグレー (技術的な用語をイメージ) */
-    color: white;
-}
-
-.aws-attitude {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-    /* 深緑 (AWSの考え方や姿勢を意識) */
-    color: white;
-}
-
-.aws-term {
-    background-color: rgba(255, 230, 0, 0.2) !important;
-    /*  (AWS用語) */
-    color: white;
-}
-
-.default-type {
-    background-color: #252424;
-    /* デフォルトのグレー */
-    color: black;
-}
-
-.button.is-light {
-    background-color: #ffffff !important;
-    /* ホワイト */
-    color: #0073bb;
-    /* AWSブルー */
-}
-</style>

@@ -1,0 +1,23 @@
+.background-aws-service {
+    background-color: rgba(255, 153, 0, 0.2) !important;
+}
+
+.background-tech-method {
+    background-color: rgba(255, 230, 0, 0.2) !important;
+}
+
+.background-tech-term {
+    background-color: rgba(242, 242, 242, 0.347) !important;
+}
+
+.background-aws-attitude {
+    background-color: rgba(255, 230, 0, 0.2) !important;
+}
+
+.background-aws-term {
+    background-color: rgba(255, 230, 0, 0.2) !important;
+}
+
+.background-default-type {
+    background-color: rgba(224, 224, 224, 0.905) !important;
+}
